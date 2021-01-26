@@ -1,20 +1,35 @@
 version: '3.0'
 
 expectations:
-  population_size: 1000
+  population_size: 500
 
 actions:
 
-  generate_study_population:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition
+  generate_cohort_1:
+    # week 45 2020 to 20 2020 inclusive
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2020-11-02 to 2020-12-13 by week"
     outputs:
       highly_sensitive:
-        cohort: output/input.csv
+        cohort: output/input_*.csv
 
-  run_model:
-    run: stata-mp:latest analysis/model.do
-    needs: [generate_study_population]
+  generate_cohort_2:
+    # week 51 2020 to 03 2021 inclusive
+    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2020-12-14 to 2021-01-24 by week"
+    outputs:
+      highly_sensitive:
+        cohort: output/input*.csv
+
+  calculate_measures:
+    run: cohortextractor:latest generate_measures --study-definition study_definition
+    needs: [generate_cohort_1, generate_cohort_2]
     outputs:
       moderately_sensitive:
-        log: logs/model.log
+        measure: output/measure_*_rate.csv
 
+  standardise_and_plot:
+    run: python:latest python analysis/time_series_plots.py
+    needs: [calculate_measures]
+    outputs:
+      moderately_sensitive:
+        tables: output/*_rate.csv
+        graph: output/time_series_plot.svg
