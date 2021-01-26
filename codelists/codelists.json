@@ -1,0 +1,28 @@
+{
+  "files": {
+    "opensafely-covid-identification.csv": {
+      "id": "opensafely/covid-identification/2020-06-03",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification/2020-06-03/",
+      "downloaded_at": "2021-01-26 12:59:01.116655Z",
+      "sha": "124db6929439379b7dacd55ba26ae4f2ed9370bc"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-positive-test/2020-07-16/",
+      "downloaded_at": "2021-01-26 12:59:01.318814Z",
+      "sha": "563b536aaf850da011233653e91e10030a5bc15f"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-clinical-code/2020-07-16/",
+      "downloaded_at": "2021-01-26 12:59:01.625884Z",
+      "sha": "5de38f993b166d6ef97c6ea822635317a6c7ae85"
+    },
+    "opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv": {
+      "id": "opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/covid-identification-in-primary-care-probable-covid-sequelae/2020-07-16/",
+      "downloaded_at": "2021-01-26 12:59:01.804543Z",
+      "sha": "38dc0c0a34e2b8b376ba72819923f442c30b4946"
+    }
+  }
+}
