@@ -49,7 +49,6 @@ study = StudyDefinition(
         return_expectations={"incidence": 0.05},
     ),
     # Stratifiers
-    all=patients.satisfying("1=1", return_expectations={"incidence": 1}),
     age_group=patients.categorised_as(
         {
             "0-49": "age < 50",
@@ -121,12 +120,7 @@ study = StudyDefinition(
 
 
 measures = [
-    Measure(
-        id="all_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["all"],
-    ),
+    Measure(id="all_rate", numerator="long_covid", denominator="population"),
     Measure(
         id="sex_rate",
         numerator="long_covid",

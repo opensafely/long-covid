@@ -3,24 +3,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 from study_definition import measures
 
-color_cycle = [
-    "#377eb8",
-    "#ff7f00",
-    "#4daf4a",
-    "#f781bf",
-    "#a65628",
-    "#984ea3",
-    "#999999",
-    "#e41a1c",
-    "#dede00",
-]
+color_cycle = ["#377eb8", "#ff7f00", "#4daf4a", "#f781bf", "#a65628", "#984ea3"]
 
 
 def get_data():
     p = f"output/measure_{m.id}.csv"
     counts = pd.read_csv(p, usecols=["date", m.numerator, m.denominator] + m.group_by)
     counts["date"] = pd.to_datetime(counts["date"])
-    counts = counts.set_index(["date"] + m.group_by)
+    if m.id == "all_rate":
+        m.group_by = ["all"]
+        counts["all"] = "All patients"
+        counts = counts.groupby(["date", "all"]).sum()
+    else:
+        counts = counts.set_index(["date"] + m.group_by)
     return counts
 
 
@@ -60,8 +55,8 @@ for i, ax in enumerate(axes.flat):
     df = time_series[i]
     df.plot(ax=ax, color=color_cycle)
     ax.grid(which="both", axis="y", color="#666666", linestyle="-", alpha=0.2)
-    name = measures[i].group_by[0].replace("_", " ")
-    title = f"{chr(97 + i)}) Long-COVID rates stratified by {name}"
+    name = "stratified by " + measures[i].group_by[0].replace("_", " ")
+    title = f"{chr(97 + i)}) Long-COVID rates {name}"
     ax.set_title(title, loc="left")
     ax.xaxis.label.set_visible(False)
     ax.legend(loc=3, prop={"size": 9})
