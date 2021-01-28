@@ -7,27 +7,7 @@ from cohortextractor import (
     codelist_from_csv,
 )
 
-long_covid_codelist = codelist(["Y2a15"], system="ctv3")
-covid_codes = codelist_from_csv(
-    "codelists/opensafely-covid-identification.csv",
-    system="icd10",
-    column="icd10_code",
-)
-covid_primary_care_positive_test = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-covid_primary_care_code = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-covid_primary_care_sequalae = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
+from codelists import *
 
 study = StudyDefinition(
     default_expectations={
@@ -44,7 +24,7 @@ study = StudyDefinition(
     ),
     # Outcome
     long_covid=patients.with_these_clinical_events(
-        long_covid_codelist,
+        any_long_covid_code,
         between=["index_date", "index_date + 6 days"],
         return_expectations={"incidence": 0.05},
     ),
@@ -103,11 +83,7 @@ study = StudyDefinition(
             pathogen="SARS-CoV-2", test_result="positive", on_or_before="index_date"
         ),
         primary_care_covid=patients.with_these_clinical_events(
-            combine_codelists(
-                covid_primary_care_code,
-                covid_primary_care_positive_test,
-                covid_primary_care_sequalae,
-            ),
+            any_primary_care_code,
             on_or_before="index_date",
         ),
         hospital_covid=patients.admitted_to_hospital(
