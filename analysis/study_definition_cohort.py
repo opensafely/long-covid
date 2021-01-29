@@ -36,7 +36,7 @@ study = StudyDefinition(
     ),
     first_long_covid_code=patients.with_these_clinical_events(
         any_long_covid_code,
-        returning="date",
+        returning="code",
         find_first_match_in_period=True,
         return_expectations={
             "incidence": 0.05,
@@ -54,7 +54,7 @@ study = StudyDefinition(
     # Stratifiers
     age_group=patients.categorised_as(
         {
-            "<18": "age < 18",
+            "0-17": "age < 18",
             "18-49": "age >= 18 AND age < 50",
             "50-59": "age >= 50 AND age < 60",
             "60-69": "age >= 60 AND age < 70",
@@ -66,8 +66,8 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "<18": 0.1,
-                    "0-49": 0.1,
+                    "0-17": 0.1,
+                    "18-49": 0.1,
                     "50-59": 0.2,
                     "60-69": 0.3,
                     "70-79": 0.2,
@@ -75,9 +75,7 @@ study = StudyDefinition(
                 }
             },
         },
-        age=patients.age_as_of(
-            "index_date",
-        ),
+        age=patients.age_as_of("index_date"),
     ),
     sex=patients.sex(
         return_expectations={
@@ -105,16 +103,17 @@ study = StudyDefinition(
             },
         },
         sgss_positive=patients.with_test_result_in_sgss(
-            pathogen="SARS-CoV-2", test_result="positive", on_or_before="index_date"
+            pathogen="SARS-CoV-2",
+            test_result="positive",
+            on_or_before="first_long_covid_date - 1 day",
         ),
         primary_care_covid=patients.with_these_clinical_events(
-            any_primary_care_code,
-            on_or_before="index_date",
+            any_primary_care_code, on_or_before="first_long_covid_date - 1 day"
         ),
         hospital_covid=patients.admitted_to_hospital(
             returning="date_admitted",
             with_these_diagnoses=covid_codes,
-            on_or_before="index_date",
+            on_or_before="first_long_covid_date - 1 day",
         ),
     ),
 )
