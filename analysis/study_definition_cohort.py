@@ -7,27 +7,7 @@ from cohortextractor import (
     codelist_from_csv,
 )
 
-long_covid_codelist = codelist(["Y2a15"], system="ctv3")
-covid_codes = codelist_from_csv(
-    "codelists/opensafely-covid-identification.csv",
-    system="icd10",
-    column="icd10_code",
-)
-covid_primary_care_positive_test = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-positive-test.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-covid_primary_care_code = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-clinical-code.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
-covid_primary_care_sequalae = codelist_from_csv(
-    "codelists/opensafely-covid-identification-in-primary-care-probable-covid-sequelae.csv",
-    system="ctv3",
-    column="CTV3ID",
-)
+from codelists import *
 
 study = StudyDefinition(
     default_expectations={
@@ -35,23 +15,47 @@ study = StudyDefinition(
         "rate": "uniform",
         "incidence": 0.05,
     },
-    index_date="2020-11-02",
+    index_date="2020-02-01",
     population=patients.satisfying(
         "has_follow_up AND (sex = 'M' OR sex = 'F')",
         has_follow_up=patients.registered_with_one_practice_between(
-            "index_date", "index_date"
+            "index_date", "index_date - 1 year"
         ),
     ),
     # Outcome
     long_covid=patients.with_these_clinical_events(
-        long_covid_codelist,
-        between=["index_date", "index_date + 6 days"],
+        any_long_covid_code,
         return_expectations={"incidence": 0.05},
+    ),
+    first_long_covid_date=patients.with_these_clinical_events(
+        any_long_covid_code,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.05, "date": {"earliest": "index_date"}},
+    ),
+    first_long_covid_code=patients.with_these_clinical_events(
+        any_long_covid_code,
+        returning="code",
+        find_first_match_in_period=True,
+        return_expectations={
+            "incidence": 0.05,
+            "category": {
+                "ratios": {
+                    "1325161000000102": 0.2,
+                    "1325181000000106": 0.2,
+                    "1325021000000106": 0.3,
+                    "1325051000000101": 0.2,
+                    "1325061000000103": 0.1,
+                }
+            },
+        },
     ),
     # Stratifiers
     age_group=patients.categorised_as(
         {
-            "0-49": "age < 50",
+            "0-17": "age < 18",
+            "18-49": "age >= 18 AND age < 50",
             "50-59": "age >= 50 AND age < 60",
             "60-69": "age >= 60 AND age < 70",
             "70-79": "age >= 70 AND age < 80",
@@ -62,17 +66,16 @@ study = StudyDefinition(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0-49": 0.1,
+                    "0-17": 0.1,
+                    "18-49": 0.1,
                     "50-59": 0.2,
                     "60-69": 0.3,
                     "70-79": 0.2,
-                    "80+": 0.2,
+                    "80+": 0.1,
                 }
             },
         },
-        age=patients.age_as_of(
-            "index_date",
-        ),
+        age=patients.age_as_of("index_date"),
     ),
     sex=patients.sex(
         return_expectations={
@@ -100,43 +103,17 @@ study = StudyDefinition(
             },
         },
         sgss_positive=patients.with_test_result_in_sgss(
-            pathogen="SARS-CoV-2", test_result="positive", on_or_before="index_date"
+            pathogen="SARS-CoV-2",
+            test_result="positive",
+            on_or_before="first_long_covid_date - 1 day",
         ),
         primary_care_covid=patients.with_these_clinical_events(
-            combine_codelists(
-                covid_primary_care_code,
-                covid_primary_care_positive_test,
-                covid_primary_care_sequalae,
-            ),
-            on_or_before="index_date",
+            any_primary_care_code, on_or_before="first_long_covid_date - 1 day"
         ),
         hospital_covid=patients.admitted_to_hospital(
             returning="date_admitted",
             with_these_diagnoses=covid_codes,
-            on_or_before="index_date",
+            on_or_before="first_long_covid_date - 1 day",
         ),
     ),
 )
-
-
-measures = [
-    Measure(id="all_rate", numerator="long_covid", denominator="population"),
-    Measure(
-        id="sex_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["sex"],
-    ),
-    Measure(
-        id="age_group_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["age_group"],
-    ),
-    Measure(
-        id="covid_record_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["previous_covid"],
-    ),
-]

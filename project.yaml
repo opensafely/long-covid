@@ -5,23 +5,23 @@ expectations:
 
 actions:
 
-  generate_cohort_1:
+  generate_measure_cohort_1:
     # week 45 2020 to 20 2020 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2020-11-02 to 2020-12-13 by week"
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-11-02 to 2020-12-13 by week"
     outputs:
       highly_sensitive:
         cohort: output/input_*.csv
 
-  generate_cohort_2:
+  generate_measure_cohort_2:
     # week 51 2020 to 03 2021 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition --index-date-range "2020-12-14 to 2021-01-24 by week"
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-12-14 to 2021-01-24 by week"
     outputs:
       highly_sensitive:
         cohort: output/input*.csv
 
   calculate_measures:
-    run: cohortextractor:latest generate_measures --study-definition study_definition
-    needs: [generate_cohort_1, generate_cohort_2]
+    run: cohortextractor:latest generate_measures --study-definition study_definition_measure
+    needs: [generate_measure_cohort_1, generate_measure_cohort_2]
     outputs:
       moderately_sensitive:
         measure: output/measure_*_rate.csv
@@ -33,3 +33,9 @@ actions:
       moderately_sensitive:
         tables: output/*_rate.csv
         graph: output/time_series_plot.svg
+
+  generate_cohort:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_cohort
+    outputs:
+      highly_sensitive:
+        cohort: output/input_cohort.csv
