@@ -94,25 +94,6 @@ study = StudyDefinition(
     ),
 )
 
+from measures import measures_dict
 
-measures = [
-    Measure(id="all_rate", numerator="long_covid", denominator="population"),
-    Measure(
-        id="sex_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["sex"],
-    ),
-    Measure(
-        id="age_group_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["age_group"],
-    ),
-    Measure(
-        id="covid_record_rate",
-        numerator="long_covid",
-        denominator="population",
-        group_by=["previous_covid"],
-    ),
-]
+measures = [Measure(**measure) for measure in measures_dict]

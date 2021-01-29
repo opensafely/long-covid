@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from study_definition_measure import measures
+from measures import measures_dict
+from types import SimpleNamespace
 
+measures = [SimpleNamespace(**measure) for measure in measures_dict]
 color_cycle = ["#377eb8", "#ff7f00", "#4daf4a", "#f781bf", "#a65628", "#984ea3"]
 
 
