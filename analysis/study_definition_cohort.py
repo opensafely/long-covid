@@ -116,4 +116,54 @@ study = StudyDefinition(
             on_or_before="first_long_covid_date - 1 day",
         ),
     ),
+    practice_id=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 1000, "stddev": 100},
+            "incidence": 1,
+        },
+    ),
+    region=patients.registered_practice_as_of(
+        "index_date",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "North East": 0.1,
+                    "North West": 0.1,
+                    "Yorkshire and The Humber": 0.1,
+                    "East Midlands": 0.1,
+                    "West Midlands": 0.1,
+                    "East": 0.1,
+                    "London": 0.2,
+                    "South East": 0.1,
+                    "South West": 0.1,
+                },
+            },
+        },
+    ),
+    imd=patients.address_as_of(
+        "2020-02-01",
+        returning="index_of_multiple_deprivation",
+        round_to_nearest=100,
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "100": 0.1,
+                    "200": 0.1,
+                    "300": 0.1,
+                    "400": 0.1,
+                    "500": 0.1,
+                    "600": 0.1,
+                    "700": 0.1,
+                    "800": 0.1,
+                    "900": 0.1,
+                    "1000": 0.1,
+                }
+            },
+        },
+    ),
 )
