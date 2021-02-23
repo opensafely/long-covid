@@ -28,7 +28,7 @@ def crosstab(idx):
         pd.crosstab(idx, df["long_covid"], normalize="columns")[1] * 100
     ).round(1)
     all_cols = pd.concat([counts, rates, percentages], axis=1)
-    # all_cols.columns = cols
+    all_cols.columns = cols
     return all_cols
 
 
