@@ -39,3 +39,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/input_cohort.csv
+
+  count_by_strata:
+    run: python:latest python analysis/all_time_counts.py
+    needs: [generate_cohort]
+    outputs:
+      moderately_sensitive:
+        tables: output/counts_table.csv
+        practice_summ: output/practice_summ.csv
+
