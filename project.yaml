@@ -45,6 +45,6 @@ actions:
     needs: [generate_cohort]
     outputs:
       moderately_sensitive:
-        tables: output/counts_table*.csv
-        # practice_summ: output/practice_summ.csv
+        tables: output/counts_table.csv
+        practice_summ: output/practice_summ.csv
 
