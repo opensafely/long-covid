@@ -35,14 +35,17 @@ def crosstab(idx):
 crosstabs = [crosstab(df[v]) for v in stratifiers]
 imd = crosstab((pd.qcut(df["imd"], 5)))
 crosstabs = crosstabs + [imd]
-all_together = pd.concat(
-    crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
-)
-print(all_together)
-all_together.to_csv("output/counts_table.csv")
-
-practice_summ = (
-    df[["long_covid", "practice_id"]].groupby("practice_id").sum().describe()
-)
-print(practice_summ)
-practice_summ.to_csv("output/practice_summ.csv")
+# all_together = pd.concat(
+#     crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
+# )
+# print(all_together)
+# all_together.to_csv("output/counts_table.csv")
+i = 0
+for c in crosstabs:
+    c.to_csv(f"output/counts_table_{(stratifiers + ['imd'])[i]}.csv")
+    i += 1
+# practice_summ = (
+#     df[["long_covid", "practice_id"]].groupby("practice_id").sum().describe()
+# )
+# print(practice_summ)
+# practice_summ.to_csv("output/practice_summ.csv")
