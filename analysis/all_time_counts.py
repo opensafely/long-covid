@@ -22,10 +22,12 @@ df = pd.read_csv(
 
 def crosstab(idx):
     cols = ["No long-covid", "Long-covid", "Rate per 100,000", "%"]
-    counts = pd.crosstab(idx, df["long_covid"], normalize=False)
-    rates = (pd.crosstab(idx, df["long_covid"], normalize="index")[1] * 100000).round(1)
+    counts = pd.crosstab(idx, df["long_covid"], normalize=False, dropna=False)
+    rates = (
+        pd.crosstab(idx, df["long_covid"], normalize="index", dropna=False)[1] * 100000
+    ).round(1)
     percentages = (
-        pd.crosstab(idx, df["long_covid"], normalize="columns")[1] * 100
+        pd.crosstab(idx, df["long_covid"], normalize="columns", dropna=False)[1] * 100
     ).round(1)
     all_cols = pd.concat([counts, rates, percentages], axis=1)
     all_cols.columns = cols
