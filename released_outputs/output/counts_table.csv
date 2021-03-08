@@ -1,0 +1,37 @@
+Attribute,Category,No long-covid,Long-covid,"Rate per 100,000",%
+first_long_covid_code,1325021000000106.0,0,308,100000.0,13.6
+first_long_covid_code,1325031000000108.0,0,261,100000.0,11.5
+first_long_covid_code,1325041000000104.0,0,353,100000.0,15.6
+first_long_covid_code,1325071000000105.0,0,13,100000.0,0.6
+first_long_covid_code,1325081000000107.0,0,30,100000.0,1.3
+first_long_covid_code,1325091000000109.0,0,,100000.0,0.1
+first_long_covid_code,1325121000000105.0,0,,100000.0,0.0
+first_long_covid_code,1325141000000103.0,0,13,100000.0,0.6
+first_long_covid_code,1325151000000100.0,0,,100000.0,0.1
+first_long_covid_code,1325161000000102.0,0,323,100000.0,14.2
+first_long_covid_code,1325181000000106.0,0,961,100000.0,42.4
+sex,F,12420399,1412,11.4,62.3
+sex,M,12375952,855,6.9,37.7
+age_group,0-17,4935696,56,1.1,2.5
+age_group,18-49,10475495,1140,10.9,50.3
+age_group,50-59,3325960,630,18.9,27.8
+age_group,60-69,2597100,270,10.4,11.9
+age_group,70-79,2110007,126,6.0,5.6
+age_group,80+,1352093,45,3.3,2.0
+previous_covid,COVID hospitalised,79117,162,204.3,7.1
+previous_covid,COVID positive,1210376,1554,128.2,68.5
+previous_covid,No COVID code,23506858,551,2.3,24.3
+region,East,5606099,428,7.6,18.9
+region,East Midlands,4183942,330,7.9,14.6
+region,London,1686757,84,5.0,3.7
+region,North East,1099716,111,10.1,4.9
+region,North West,2060361,163,7.9,7.2
+region,South East,1581318,411,26.0,18.2
+region,South West,3285731,359,10.9,15.9
+region,West Midlands,990501,98,9.9,4.3
+region,Yorkshire and The Humber,3412613,279,8.2,12.3
+imd,"(-1.001, 5800.0]",5015906,389,7.8,17.2
+imd,"(5800.0, 12500.0]",4966035,427,8.6,18.8
+imd,"(12500.0, 18900.0]",4945320,509,10.3,22.5
+imd,"(18900.0, 25500.0]",4947701,485,9.8,21.4
+imd,"(25500.0, 32800.0]",4921389,457,9.3,20.2
