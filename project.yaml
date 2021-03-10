@@ -7,14 +7,14 @@ actions:
 
   generate_measure_cohort_1:
     # week 45 2020 to 20 2020 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-11-02 to 2020-12-27 by week"
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-11-02 to 2021-01-03 by week"
     outputs:
       highly_sensitive:
         cohort: output/input_*.csv
 
   generate_measure_cohort_2:
     # week 51 2020 to 03 2021 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-12-28 to 2021-02-21 by week"
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2021-01-04 to 2021-03-07 by week"
     outputs:
       highly_sensitive:
         cohort: output/input*.csv
