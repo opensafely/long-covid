@@ -23,7 +23,7 @@ actions:
     run: cohortextractor:latest generate_measures --study-definition study_definition_measure
     needs: [generate_measure_cohort_1, generate_measure_cohort_2]
     outputs:
-      moderately_sensitive:
+      highly_sensitive:
         measure: output/measure_*_rate.csv
 
   standardise_and_plot:
@@ -47,5 +47,6 @@ actions:
       moderately_sensitive:
         table: output/counts_table.csv
         code_table: output/first_long_covid_code.csv
-        practice_summ: output/practice_summ.csv
+        practice_summ: output/practice_summ.txt
+        practice_histogram: output/practice_coding_histogram.svg
 
