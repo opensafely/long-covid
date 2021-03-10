@@ -1,8 +1,9 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
 pd.set_option("display.max_rows", 50)
-
+results_path = "output/practice_summ.txt"
 stratifiers = ["sex", "age_group", "previous_covid", "region"]
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
@@ -14,12 +15,6 @@ combined_codelists = [
     for path in long_covid_codelists
 ]
 combined_codelists = pd.concat(combined_codelists)
-
-df = pd.read_csv(
-    "output/input_cohort.csv",
-    index_col="patient_id",
-    parse_dates=["first_long_covid_date"],
-)
 
 
 def crosstab(idx):
@@ -36,6 +31,23 @@ def crosstab(idx):
     return all_cols
 
 
+def write_to_file(text_to_write, erase=False):
+    if erase and os.path.isfile(results_path):
+        os.remove(results_path)
+    with open(results_path, "a") as txt:
+        txt.writelines(f"{text_to_write}\n")
+        print(text_to_write)
+        txt.writelines("\n")
+        print("\n")
+
+
+df = pd.read_csv(
+    "output/input_cohort.csv",
+    index_col="patient_id",
+    parse_dates=["first_long_covid_date"],
+)
+
+## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
 imd = crosstab((pd.qcut(df["imd"], 5)))
 crosstabs = crosstabs + [imd]
@@ -45,13 +57,22 @@ all_together = pd.concat(
 print(all_together)
 all_together.to_csv("output/counts_table.csv")
 
-practice_summ = (
-    df[["long_covid", "practice_id"]].groupby("practice_id").sum().describe()
-)
-print(practice_summ)
-practice_summ.to_csv("output/practice_summ.csv")
-
+## Table with first covid codes
 first_long_covid_code = crosstab(df["first_long_covid_code"])
 first_long_covid_code = combined_codelists.join(first_long_covid_code)
 first_long_covid_code.to_csv("output/first_long_covid_code.csv")
 print(first_long_covid_code)
+
+## Descriptives by practice
+by_practice = (
+    df[["long_covid", "practice_id"]].groupby("practice_id").sum()["long_covid"]
+)
+write_to_file(f"Total patients coded: {by_practice.sum()}", erase=True)
+top_10_count = by_practice.sort_values().tail(10).sum()
+write_to_file(f"Patients coded in the highest 10 practices: {top_10_count}")
+practice_summ = by_practice.describe()
+write_to_file(f"Summary stats by practice:\n{practice_summ}")
+by_practice_non_zero = by_practice.loc[by_practice > 0]
+write_to_file(f"Total practices with at least one code: {len(by_practice_non_zero)}")
+by_practice_non_zero.hist()
+plt.savefig("output/practice_coding_histogram.svg")
