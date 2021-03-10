@@ -45,6 +45,7 @@ actions:
     needs: [generate_cohort]
     outputs:
       moderately_sensitive:
-        tables: output/counts_table.csv
+        table: output/counts_table.csv
+        code_table: output/first_long_covid_code.csv
         practice_summ: output/practice_summ.csv
 
