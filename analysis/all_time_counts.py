@@ -3,20 +3,22 @@ import matplotlib.pyplot as plt
 
 pd.set_option("display.max_rows", 50)
 
-stratifiers = ["first_long_covid_code", "sex", "age_group", "previous_covid", "region"]
+stratifiers = ["sex", "age_group", "previous_covid", "region"]
+long_covid_codelists = [
+    "opensafely-nice-managing-the-long-term-effects-of-covid-19",
+    "opensafely-referral-and-signposting-for-long-covid",
+    "opensafely-assessment-instruments-and-outcome-measures-for-long-covid",
+]
+combined_codelists = [
+    pd.read_csv(f"codelists/{path}.csv", index_col="code")
+    for path in long_covid_codelists
+]
+combined_codelists = pd.concat(combined_codelists)
 
 df = pd.read_csv(
     "output/input_cohort.csv",
     index_col="patient_id",
     parse_dates=["first_long_covid_date"],
-    # dtype={
-    #     "first_long_covid_code": "category",
-    #     "sex": "category",
-    #     "age_group": "category",
-    #     "previous_covid": "category",
-    #     "practice_id": "category",
-    #     "region": "category",
-    # },
 )
 
 
@@ -48,3 +50,8 @@ practice_summ = (
 )
 print(practice_summ)
 practice_summ.to_csv("output/practice_summ.csv")
+
+first_long_covid_code = crosstab(df["first_long_covid_code"])
+first_long_covid_code = combined_codelists.join(first_long_covid_code)
+first_long_covid_code.to_csv("output/first_long_covid_code.csv")
+print(first_long_covid_code)
