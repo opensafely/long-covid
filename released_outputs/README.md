@@ -6,6 +6,7 @@
 * [covid_record_rate.csv](covid_record_rate.csv)
 * output
   * [output/counts_table.csv](output/counts_table.csv)
+  * [output/first_long_covid_code.csv](output/first_long_covid_code.csv)
 * [practice_summ.csv](practice_summ.csv)
 * [sex_rate.csv](sex_rate.csv)
 * [time_series_plot.svg](time_series_plot.svg)
