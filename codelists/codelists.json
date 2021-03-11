@@ -41,6 +41,168 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/assessment-instruments-and-outcome-measures-for-long-covid/79c0fa8a/",
       "downloaded_at": "2021-01-28 19:26:14.807785Z",
       "sha": "f09228d28e9a43ea823b4570e7d82ff3714a0010"
+    },
+    "opensafely-ethnicity.csv": {
+      "id": "opensafely/ethnicity/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
+      "downloaded_at": "2021-03-11 21:27:41.752883Z",
+      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
+    },
+    "opensafely-diabetes.csv": {
+      "id": "opensafely/diabetes/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/diabetes/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:41.882089Z",
+      "sha": "605104b3e3770b7ab703d12943f5f15fa8eafe77"
+    },
+    "opensafely-smoking-clear.csv": {
+      "id": "opensafely/smoking-clear/2020-04-29",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/smoking-clear/2020-04-29/",
+      "downloaded_at": "2021-03-11 21:27:41.999242Z",
+      "sha": "0b5f3afe1db96dcce5141220e893a42ba2e5a8f7"
+    },
+    "opensafely-direct-acting-oral-anticoagulants-doac.csv": {
+      "id": "opensafely/direct-acting-oral-anticoagulants-doac/2020-10-05",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/direct-acting-oral-anticoagulants-doac/2020-10-05/",
+      "downloaded_at": "2021-03-11 21:27:42.112666Z",
+      "sha": "50f69d9c0bcb0e58aadb76fb4749d33f74f66253"
+    },
+    "opensafely-aplastic-anaemia.csv": {
+      "id": "opensafely/aplastic-anaemia/2020-04-24",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/aplastic-anaemia/2020-04-24/",
+      "downloaded_at": "2021-03-11 21:27:42.243119Z",
+      "sha": "bd34ff54f789dce031e3581006cc0befcee0b35c"
+    },
+    "opensafely-asplenia.csv": {
+      "id": "opensafely/asplenia/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asplenia/2020-06-02/",
+      "downloaded_at": "2021-03-11 21:27:42.370749Z",
+      "sha": "7599ea87a8f3d9d92389a728966d3077b00ac828"
+    },
+    "opensafely-asthma-diagnosis.csv": {
+      "id": "opensafely/asthma-diagnosis/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-diagnosis/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:42.494672Z",
+      "sha": "722a6ba77a1289a0941cfaa7ce0b9fa32c836f3c"
+    },
+    "opensafely-asthma-inhaler-salbutamol-medication.csv": {
+      "id": "opensafely/asthma-inhaler-salbutamol-medication/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-inhaler-salbutamol-medication/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:42.644465Z",
+      "sha": "d886f3ce53492ec456e0a304ee865d66e73715d6"
+    },
+    "opensafely-asthma-inhaler-steroid-medication.csv": {
+      "id": "opensafely/asthma-inhaler-steroid-medication/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-inhaler-steroid-medication/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:42.778312Z",
+      "sha": "d184aff205a5017c9e656d2be7484e3aaadc9cda"
+    },
+    "opensafely-cancer-excluding-lung-and-haematological.csv": {
+      "id": "opensafely/cancer-excluding-lung-and-haematological/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/cancer-excluding-lung-and-haematological/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:42.936529Z",
+      "sha": "8fa1164b587028c4bd5903289e0948642d399e56"
+    },
+    "opensafely-chronic-cardiac-disease.csv": {
+      "id": "opensafely/chronic-cardiac-disease/2020-04-08",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-cardiac-disease/2020-04-08/",
+      "downloaded_at": "2021-03-11 21:27:43.081181Z",
+      "sha": "2267f6fada9c77a2bbf62ce7a1c07ddf48348d61"
+    },
+    "opensafely-chronic-liver-disease.csv": {
+      "id": "opensafely/chronic-liver-disease/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-liver-disease/2020-06-02/",
+      "downloaded_at": "2021-03-11 21:27:44.598205Z",
+      "sha": "d31d212d23c5f0e15f63236d2106282fb070bd7c"
+    },
+    "opensafely-chronic-respiratory-disease.csv": {
+      "id": "opensafely/chronic-respiratory-disease/2020-04-10",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-respiratory-disease/2020-04-10/",
+      "downloaded_at": "2021-03-11 21:27:44.747590Z",
+      "sha": "77946d9b844f348daf5c8c9e81346b9776d13998"
+    },
+    "opensafely-dementia.csv": {
+      "id": "opensafely/dementia/2020-04-22",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dementia/2020-04-22/",
+      "downloaded_at": "2021-03-11 21:27:44.884110Z",
+      "sha": "9d40ff3a5c2428af4651c765f2c418de3a3ad4b4"
+    },
+    "opensafely-chronic-kidney-disease.csv": {
+      "id": "opensafely/chronic-kidney-disease/2020-04-14",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/chronic-kidney-disease/2020-04-14/",
+      "downloaded_at": "2021-03-11 21:27:45.036791Z",
+      "sha": "08e003f1222fe26781288b2eeff22db99780f202"
+    },
+    "opensafely-haematological-cancer.csv": {
+      "id": "opensafely/haematological-cancer/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/haematological-cancer/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:45.377373Z",
+      "sha": "59d65c613a7b984ba46eca8a74eedcc6320609fe"
+    },
+    "opensafely-hiv.csv": {
+      "id": "opensafely/hiv/2020-07-13",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/hiv/2020-07-13/",
+      "downloaded_at": "2021-03-11 21:27:45.499873Z",
+      "sha": "c36a629c306e57081f702c3f30671364e452a3ee"
+    },
+    "opensafely-lung-cancer.csv": {
+      "id": "opensafely/lung-cancer/2020-04-15",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/lung-cancer/2020-04-15/",
+      "downloaded_at": "2021-03-11 21:27:45.719566Z",
+      "sha": "645584a20f81c4d76187a2c305c904e8b8c63dbb"
+    },
+    "opensafely-other-neurological-conditions.csv": {
+      "id": "opensafely/other-neurological-conditions/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/other-neurological-conditions/2020-06-02/",
+      "downloaded_at": "2021-03-11 21:27:45.835237Z",
+      "sha": "855e7e09a0500401ae2429c6a401978e8c9075ec"
+    },
+    "opensafely-permanent-immunosuppression.csv": {
+      "id": "opensafely/permanent-immunosuppression/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/permanent-immunosuppression/2020-06-02/",
+      "downloaded_at": "2021-03-11 21:27:45.960099Z",
+      "sha": "15dd49a1cbc8b8e9f4a9e05bbcbeb45b4e03106e"
+    },
+    "opensafely-asthma-oral-prednisolone-medication.csv": {
+      "id": "opensafely/asthma-oral-prednisolone-medication/2020-04-27",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/asthma-oral-prednisolone-medication/2020-04-27/",
+      "downloaded_at": "2021-03-11 21:27:46.131781Z",
+      "sha": "e47cc254975c23f7507cf04bb655454f8b5ece18"
+    },
+    "opensafely-ra-sle-psoriasis.csv": {
+      "id": "opensafely/ra-sle-psoriasis/2020-04-14",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/ra-sle-psoriasis/2020-04-14/",
+      "downloaded_at": "2021-03-11 21:27:46.252914Z",
+      "sha": "51e59c80348f3b45f7ce323683a1df7cdb673c0e"
+    },
+    "opensafely-sickle-cell-disease.csv": {
+      "id": "opensafely/sickle-cell-disease/2020-04-14",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/sickle-cell-disease/2020-04-14/",
+      "downloaded_at": "2021-03-11 21:27:46.364617Z",
+      "sha": "c30644d91b2c23e805f1ad6b723c30d1f4cc2191"
+    },
+    "opensafely-solid-organ-transplantation.csv": {
+      "id": "opensafely/solid-organ-transplantation/2020-04-10",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/solid-organ-transplantation/2020-04-10/",
+      "downloaded_at": "2021-03-11 21:27:46.492981Z",
+      "sha": "94178a9e19770b9c43c08fe42df6ab5ed0d9ec49"
+    },
+    "opensafely-temporary-immunosuppression.csv": {
+      "id": "opensafely/temporary-immunosuppression/2020-04-24",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/temporary-immunosuppression/2020-04-24/",
+      "downloaded_at": "2021-03-11 21:27:46.722030Z",
+      "sha": "99f6c0787e17e16430549a4cfb5084612faba2ac"
+    },
+    "opensafely-stroke-updated.csv": {
+      "id": "opensafely/stroke-updated/2020-06-02",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/stroke-updated/2020-06-02/",
+      "downloaded_at": "2021-03-11 21:27:46.843321Z",
+      "sha": "e62a8af49698022220de1e1e438d6b6c611e666e"
+    },
+    "opensafely-warfarin.csv": {
+      "id": "opensafely/warfarin/2020-10-05",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/warfarin/2020-10-05/",
+      "downloaded_at": "2021-03-11 21:27:46.968880Z",
+      "sha": "971d819a24d4c04bea3000390e9fb2f718fb3b22"
     }
   }
 }

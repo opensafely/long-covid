@@ -1,10 +1,11 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+from common_variables import demographic_variables, clinical_variables
 
 pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
-stratifiers = ["sex", "age_group", "previous_covid", "region"]
+stratifiers = list(demographic_variables.keys()) + list(clinical_variables.keys())
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
@@ -49,8 +50,6 @@ df = pd.read_csv(
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
-imd = crosstab((pd.qcut(df["imd"], 5)))
-crosstabs = crosstabs + [imd]
 all_together = pd.concat(
     crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
 )
