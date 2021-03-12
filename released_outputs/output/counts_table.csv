@@ -1,15 +1,12 @@
 Attribute,Category,No long-covid,Long-covid,"Rate per 100,000",%
-sex,F,12420399,1412,11.4,62.3
-sex,M,12375952,855,6.9,37.7
 age_group,0-17,4935696,56,1.1,2.5
 age_group,18-49,10475495,1140,10.9,50.3
 age_group,50-59,3325960,630,18.9,27.8
 age_group,60-69,2597100,270,10.4,11.9
 age_group,70-79,2110007,126,6.0,5.6
 age_group,80+,1352093,45,3.3,2.0
-previous_covid,COVID hospitalised,79117,162,204.3,7.1
-previous_covid,COVID positive,1210376,1554,128.2,68.5
-previous_covid,No COVID code,23506858,551,2.3,24.3
+sex,F,12420399,1412,11.4,62.3
+sex,M,12375952,855,6.9,37.7
 region,East,5606099,428,7.6,18.9
 region,East Midlands,4183942,330,7.9,14.6
 region,London,1686757,84,5.0,3.7
@@ -19,8 +16,48 @@ region,South East,1581318,411,26.0,18.2
 region,South West,3285731,359,10.9,15.9
 region,West Midlands,990501,98,9.9,4.3
 region,Yorkshire and The Humber,3412613,279,8.2,12.3
-imd,"(-1.001, 5800.0]",5015906,389,7.8,17.2
-imd,"(5800.0, 12500.0]",4966035,427,8.6,18.8
-imd,"(12500.0, 18900.0]",4945320,509,10.3,22.5
-imd,"(18900.0, 25500.0]",4947701,485,9.8,21.4
-imd,"(25500.0, 32800.0]",4921389,457,9.3,20.2
+imd,0,538399,60,11.1,2.6
+imd,1,4995749,387,7.7,17.1
+imd,2,4891285,407,8.3,18.0
+imd,3,5125794,523,10.2,23.1
+imd,4,4806715,471,9.8,20.8
+imd,5,4438409,419,9.4,18.5
+ethnicity,1,14878162,1463,9.8,85.1
+ethnicity,2,327960,27,8.2,1.6
+ethnicity,3,1533691,166,10.8,9.7
+ethnicity,4,531960,40,7.5,2.3
+ethnicity,5,497830,24,4.8,1.4
+previous_covid,COVID hospitalised,79117,162,204.3,7.1
+previous_covid,COVID positive,1232132,1555,126.0,68.6
+previous_covid,No COVID code,23485102,550,2.3,24.3
+bmi,Not obese,20842994,1585,7.6,69.9
+bmi,Obese I (30-34.9),2406222,375,15.6,16.5
+bmi,Obese II (35-39.9),961117,179,18.6,7.9
+bmi,Obese III (40+),586018,128,21.8,5.6
+diabetes,0,22842294,2019,8.8,89.1
+diabetes,1,1954057,248,12.7,10.9
+cancer,0,23800072,2186,9.2,96.4
+cancer,1,996279,81,8.1,3.6
+haem_cancer,0,24677271,2254,9.1,99.4
+haem_cancer,1,119080,13,10.9,0.6
+asthma,0,21197685,1714,8.1,75.6
+asthma,1,3239325,454,14.0,20.0
+asthma,2,359341,99,27.5,4.4
+chronic_respiratory_disease,0,23978146,2187,9.1,96.5
+chronic_respiratory_disease,1,818205,80,9.8,3.5
+chronic_cardiac_disease,0,23422216,2139,9.1,94.4
+chronic_cardiac_disease,1,1374135,128,9.3,5.6
+chronic_liver_disease,0,24676676,2258,9.1,99.6
+chronic_liver_disease,1,119675,9,7.5,0.4
+stroke_or_dementia,0,24317221,2229,9.2,98.3
+stroke_or_dementia,1,479130,38,7.9,1.7
+other_neuro,0,24585211,2247,9.1,99.1
+other_neuro,1,211140,20,9.5,0.9
+organ_transplant,0,,,,
+organ_transplant,1,,,,
+dysplenia,0,,,,
+dysplenia,1,,,,
+ra_sle_psoriasis,0,23797900,2124,8.9,93.7
+ra_sle_psoriasis,1,998451,143,14.3,6.3
+other_immunosuppressive_condition,0,24687328,2259,9.1,99.6
+other_immunosuppressive_condition,1,109023,8,7.3,0.4
