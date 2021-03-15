@@ -48,5 +48,3 @@ actions:
         table: output/counts_table.csv
         code_table: output/first_long_covid_code.csv
         practice_summ: output/practice_summ.txt
-        practice_histogram: output/practice_coding_histogram.svg
-

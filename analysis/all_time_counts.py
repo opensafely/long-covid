@@ -71,7 +71,6 @@ top_10_count = by_practice.sort_values().tail(10).sum()
 write_to_file(f"Patients coded in the highest 10 practices: {top_10_count}")
 practice_summ = by_practice.describe()
 write_to_file(f"Summary stats by practice:\n{practice_summ}")
-by_practice_non_zero = by_practice.loc[by_practice > 0]
-write_to_file(f"Total practices with at least one code: {len(by_practice_non_zero)}")
-by_practice_non_zero.hist()
-plt.savefig("output/practice_coding_histogram.svg")
+ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
+practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
+write_to_file(f"Distribution of coding within practices: {practice_distribution}")
