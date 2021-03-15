@@ -82,5 +82,5 @@ study = StudyDefinition(
         },
     ),
     **demographic_variables,
-    **clinical_variables,
+    # **clinical_variables,
 )
