@@ -96,9 +96,6 @@ demographic_variables = dict(
             "incidence": 0.75,
         },
     ),
-)
-
-clinical_variables = dict(
     previous_covid=patients.categorised_as(
         {
             "COVID positive": """
@@ -124,6 +121,9 @@ clinical_variables = dict(
         primary_care_covid=patients.with_these_clinical_events(any_primary_care_code),
         hospital_covid=patients.admitted_to_hospital(with_these_diagnoses=covid_codes),
     ),
+)
+
+clinical_variables = dict(
     bmi=patients.categorised_as(
         {
             "Not obese": "DEFAULT",
