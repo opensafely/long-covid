@@ -16,7 +16,11 @@ def make_variable(code):
         f"snomed_{code}": (
             patients.with_these_clinical_events(
                 codelist([code], system="snomed"),
-                return_expectations={"incidence": 0.05},
+                returning="number_of_matches_in_period",
+                return_expectations={
+                    "incidence": 0.05,
+                    "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+                },
             )
         )
     }
