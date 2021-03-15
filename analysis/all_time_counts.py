@@ -62,6 +62,17 @@ first_long_covid_code = combined_codelists.join(first_long_covid_code)
 first_long_covid_code.to_csv("output/first_long_covid_code.csv")
 print(first_long_covid_code)
 
+## All long-covid codes table
+codes = [str(code) for code in combined_codelists.index]
+df.columns = df.columns.str.lstrip("snomed_")
+all_codes = df[codes].sum().T
+all_codes = all_codes.rename("Total records")
+all_codes.index = all_codes.index.astype("int64")
+all_codes = combined_codelists.join(all_codes)
+all_codes["%"] = (all_codes["Total records"] / all_codes["Total records"].sum()) * 100
+all_codes.to_csv("output/all_long_covid_codes.csv")
+print(all_codes)
+
 ## Descriptives by practice
 by_practice = (
     df[["long_covid", "practice_id"]].groupby("practice_id").sum()["long_covid"]
