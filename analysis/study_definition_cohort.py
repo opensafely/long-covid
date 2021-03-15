@@ -13,9 +13,10 @@ from common_variables import demographic_variables, clinical_variables
 
 def make_variable(code):
     return {
-        code: (
+        f"snomed_{code}": (
             patients.with_these_clinical_events(
-                codelist(code, system="snomed"), return_expectations={"incidence": 0.05}
+                codelist([code], system="snomed"),
+                return_expectations={"incidence": 0.05},
             )
         )
     }

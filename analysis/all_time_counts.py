@@ -62,6 +62,17 @@ first_long_covid_code = combined_codelists.join(first_long_covid_code)
 first_long_covid_code.to_csv("output/first_long_covid_code.csv")
 print(first_long_covid_code)
 
+## All long-covid codes table
+codes = [str(code) for code in combined_codelists.index]
+df.columns = df.columns.str.lstrip("snomed_")
+all_codes = df[codes].sum().T
+all_codes = all_codes.rename("Total records")
+all_codes.index = all_codes.index.astype("int64")
+all_codes = combined_codelists.join(all_codes)
+all_codes["%"] = (all_codes["Total records"] / all_codes["Total records"].sum()) * 100
+all_codes.to_csv("output/all_long_covid_codes.csv")
+print(all_codes)
+
 ## Descriptives by practice
 by_practice = (
     df[["long_covid", "practice_id"]].groupby("practice_id").sum()["long_covid"]
@@ -71,7 +82,6 @@ top_10_count = by_practice.sort_values().tail(10).sum()
 write_to_file(f"Patients coded in the highest 10 practices: {top_10_count}")
 practice_summ = by_practice.describe()
 write_to_file(f"Summary stats by practice:\n{practice_summ}")
-by_practice_non_zero = by_practice.loc[by_practice > 0]
-write_to_file(f"Total practices with at least one code: {len(by_practice_non_zero)}")
-by_practice_non_zero.hist()
-plt.savefig("output/practice_coding_histogram.svg")
+ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
+practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
+write_to_file(f"Distribution of coding within practices: {practice_distribution}")
