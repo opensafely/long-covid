@@ -10,6 +10,24 @@ from cohortextractor import (
 from codelists import *
 from common_variables import demographic_variables, clinical_variables
 
+
+def make_variable(code):
+    return {
+        code: (
+            patients.with_these_clinical_events(
+                codelist(code, system="snomed"), return_expectations={"incidence": 0.05}
+            )
+        )
+    }
+
+
+def loop_over_codes(codelist):
+    variables = {}
+    for code in codelist:
+        variables.update(make_variable(code))
+    return variables
+
+
 study = StudyDefinition(
     default_expectations={
         "date": {"earliest": "1900-01-01", "latest": "today"},
@@ -37,6 +55,7 @@ study = StudyDefinition(
         find_first_match_in_period=True,
         return_expectations={"incidence": 0.05, "date": {"earliest": "index_date"}},
     ),
+    **loop_over_codes(any_long_covid_code),
     first_long_covid_code=patients.with_these_clinical_events(
         any_long_covid_code,
         returning="code",
