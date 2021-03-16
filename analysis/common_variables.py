@@ -96,31 +96,6 @@ demographic_variables = dict(
             "incidence": 0.75,
         },
     ),
-    previous_covid=patients.categorised_as(
-        {
-            "COVID positive": """
-                                (sgss_positive OR primary_care_covid)
-                                AND NOT hospital_covid
-                                """,
-            "COVID hospitalised": "hospital_covid",
-            "No COVID code": "DEFAULT",
-        },
-        return_expectations={
-            "incidence": 1,
-            "category": {
-                "ratios": {
-                    "COVID positive": 0.4,
-                    "COVID hospitalised": 0.4,
-                    "No COVID code": 0.2,
-                }
-            },
-        },
-        sgss_positive=patients.with_test_result_in_sgss(
-            pathogen="SARS-CoV-2", test_result="positive"
-        ),
-        primary_care_covid=patients.with_these_clinical_events(any_primary_care_code),
-        hospital_covid=patients.admitted_to_hospital(with_these_diagnoses=covid_codes),
-    ),
 )
 
 clinical_variables = dict(
