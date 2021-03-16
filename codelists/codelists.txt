@@ -32,3 +32,4 @@ opensafely/solid-organ-transplantation/2020-04-10
 opensafely/temporary-immunosuppression/2020-04-24
 opensafely/stroke-updated/2020-06-02
 opensafely/warfarin/2020-10-05
+primis-covid19-vacc-uptake/eth2001/v1

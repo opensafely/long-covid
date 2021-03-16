@@ -49,6 +49,12 @@ ethnicity_codes = codelist_from_csv(
     column="Code",
     category_column="Grouping_6",
 )
+ethnicity_codes_snomed = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
+    system="snomed",
+    column="code",
+    category_column="grouping_6_id",
+)
 dementia_codes = codelist_from_csv(
     "codelists/opensafely-dementia.csv", system="ctv3", column="CTV3ID"
 )

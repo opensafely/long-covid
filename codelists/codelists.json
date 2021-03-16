@@ -203,6 +203,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/warfarin/2020-10-05/",
       "downloaded_at": "2021-03-11 21:27:46.968880Z",
       "sha": "971d819a24d4c04bea3000390e9fb2f718fb3b22"
+    },
+    "primis-covid19-vacc-uptake-eth2001.csv": {
+      "id": "primis-covid19-vacc-uptake/eth2001/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth2001/v1/",
+      "downloaded_at": "2021-03-16 14:17:53.507634Z",
+      "sha": "36e4eacba898e6ec72da8ff66e8c673bfd9aa8e4"
     }
   }
 }

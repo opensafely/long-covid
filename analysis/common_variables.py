@@ -87,7 +87,7 @@ demographic_variables = dict(
         },
     ),
     ethnicity=patients.with_these_clinical_events(
-        ethnicity_codes,
+        ethnicity_codes_snomed,
         returning="category",
         find_last_match_in_period=True,
         on_or_before="index_date",
