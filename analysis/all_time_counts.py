@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from common_variables import demographic_variables, clinical_variables
@@ -19,7 +20,7 @@ combined_codelists = pd.concat(combined_codelists)
 
 
 def crosstab(idx):
-    cols = ["No long-covid", "Long-covid", "Rate per 100,000", "%"]
+    cols = ["No long COVID", "Long COVID", "Rate per 100,000", "%"]
     counts = pd.crosstab(idx, df["long_covid"], normalize=False, dropna=False)
     rates = (
         pd.crosstab(idx, df["long_covid"], normalize="index", dropna=False)[1] * 100000
@@ -30,6 +31,12 @@ def crosstab(idx):
     all_cols = pd.concat([counts, rates, percentages], axis=1)
     all_cols.columns = cols
     return all_cols
+
+
+def redact_small_numbers(df, column):
+    mask = df[column].isin([1, 2, 3, 4, 5])
+    df.loc[mask, :] = np.nan
+    return df
 
 
 def write_to_file(text_to_write, erase=False):
@@ -54,13 +61,7 @@ all_together = pd.concat(
     crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
 )
 print(all_together)
-all_together.to_csv("output/counts_table.csv")
-
-## Table with first covid codes
-first_long_covid_code = crosstab(df["first_long_covid_code"])
-first_long_covid_code = combined_codelists.join(first_long_covid_code)
-first_long_covid_code.to_csv("output/first_long_covid_code.csv")
-print(first_long_covid_code)
+redact_small_numbers(all_together, "Long COVID").to_csv("output/counts_table.csv")
 
 ## All long-covid codes table
 codes = [str(code) for code in combined_codelists.index]
@@ -70,8 +71,10 @@ all_codes = all_codes.rename("Total records")
 all_codes.index = all_codes.index.astype("int64")
 all_codes = combined_codelists.join(all_codes)
 all_codes["%"] = (all_codes["Total records"] / all_codes["Total records"].sum()) * 100
-all_codes.to_csv("output/all_long_covid_codes.csv")
-print(all_codes)
+redact_small_numbers(all_codes, "Total records").to_csv(
+    "output/all_long_covid_codes.csv"
+)
+print(all_codes.columns)
 
 ## Descriptives by practice
 by_practice = (
@@ -85,3 +88,39 @@ write_to_file(f"Summary stats by practice:\n{practice_summ}")
 ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
 practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
 write_to_file(f"Distribution of coding within practices: {practice_distribution}")
+
+## Counts over time graph
+def line_format(label):
+    """
+    Convert time label to the format of pandas line plot
+    """
+    lab = label.month_name()[:3]
+    if lab == "Jan":
+        lab += f"\n{label.year}"
+    if lab == "Feb" and label.year == 2019:
+        lab = f"\n{label.year}"
+    return lab
+
+
+def generic_graph_settings():
+    xlim = ax.get_xlim()
+    ax.grid(b=False)
+    ax.set_title(title, loc="left")
+    ax.set_xlim(xlim)
+    ax.set_ylim(ymin=0)
+    ax.set_ylabel("Count of code use per week")
+    plt.tight_layout()
+
+
+monthly_counts = (
+    df.set_index("first_long_covid_date")["long_covid"].resample("M").count()
+)
+monthly_counts.loc[monthly_counts.isin([1, 2, 3, 4, 5])] = np.nan
+print(monthly_counts)
+ax = monthly_counts.plot(kind="bar", width=1, zorder=0)
+title = "Code use per week"
+ax.set_xticklabels(map(line_format, monthly_counts.index), rotation="horizontal")
+ax.xaxis.label.set_visible(False)
+generic_graph_settings()
+plt.savefig("output/code_use_per_week.svg")
+plt.close()
