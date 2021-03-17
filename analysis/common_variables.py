@@ -38,26 +38,26 @@ demographic_variables = dict(
             "category": {"ratios": {"M": 0.49, "F": 0.51}},
         }
     ),
-    region=patients.registered_practice_as_of(
-        "index_date",
-        returning="nuts1_region_name",
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "North East": 0.1,
-                    "North West": 0.1,
-                    "Yorkshire and The Humber": 0.1,
-                    "East Midlands": 0.1,
-                    "West Midlands": 0.1,
-                    "East": 0.1,
-                    "London": 0.2,
-                    "South East": 0.1,
-                    "South West": 0.1,
-                },
-            },
-        },
-    ),
+    # region=patients.registered_practice_as_of(
+    #     "index_date",
+    #     returning="nuts1_region_name",
+    #     return_expectations={
+    #         "rate": "universal",
+    #         "category": {
+    #             "ratios": {
+    #                 "North East": 0.1,
+    #                 "North West": 0.1,
+    #                 "Yorkshire and The Humber": 0.1,
+    #                 "East Midlands": 0.1,
+    #                 "West Midlands": 0.1,
+    #                 "East": 0.1,
+    #                 "London": 0.2,
+    #                 "South East": 0.1,
+    #                 "South West": 0.1,
+    #             },
+    #         },
+    #     },
+    # ),
     imd=patients.categorised_as(
         {
             "0": "DEFAULT",
