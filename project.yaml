@@ -1,38 +1,9 @@
 version: '3.0'
 
 expectations:
-  population_size: 500
+  population_size: 2000
 
 actions:
-
-  generate_measure_cohort_1:
-    # week 45 2020 to 20 2020 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2020-11-02 to 2021-01-03 by week"
-    outputs:
-      highly_sensitive:
-        cohort: output/input_*.csv
-
-  generate_measure_cohort_2:
-    # week 51 2020 to 03 2021 inclusive
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_measure --index-date-range "2021-01-04 to 2021-03-07 by week"
-    outputs:
-      highly_sensitive:
-        cohort: output/input*.csv
-
-  calculate_measures:
-    run: cohortextractor:latest generate_measures --study-definition study_definition_measure
-    needs: [generate_measure_cohort_1, generate_measure_cohort_2]
-    outputs:
-      highly_sensitive:
-        measure: output/measure_*_rate.csv
-
-  standardise_and_plot:
-    run: python:latest python analysis/time_series_plots.py
-    needs: [calculate_measures]
-    outputs:
-      moderately_sensitive:
-        tables: output/*_rate.csv
-        graph: output/time_series_plot.svg
 
   generate_cohort:
     run: cohortextractor:latest generate_cohort --study-definition study_definition_cohort
@@ -46,6 +17,6 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/counts_table.csv
-        code_table: output/first_long_covid_code.csv
-        code_table2: output/all_long_covid_codes.csv
+        figure: output/code_use_per_week.svg
+        code_table: output/all_long_covid_codes.csv
         practice_summ: output/practice_summ.txt
