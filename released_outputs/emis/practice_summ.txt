@@ -1,0 +1,26 @@
+Total patients coded: 8535
+
+Patients coded in the highest 10 practices: 219
+
+Summary stats by practice:
+count    3907.000000
+mean        2.184541
+std         2.832043
+min         0.000000
+25%         0.000000
+50%         1.000000
+75%         3.000000
+max        30.000000
+Name: long_covid, dtype: float64
+
+Distribution of coding within practices: long_covid
+(-1, 0]        1276
+(0, 1]          846
+(1, 2]          555
+(2, 3]          411
+(3, 4]          243
+(4, 5]          170
+(5, 10]         325
+(10, 10000]      81
+Name: long_covid, dtype: int64
+
