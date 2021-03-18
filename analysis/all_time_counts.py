@@ -88,39 +88,11 @@ write_to_file(f"Summary stats by practice:\n{practice_summ}")
 ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
 practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
 write_to_file(f"Distribution of coding within practices: {practice_distribution}")
+practice_distribution.to_csv("output/practice_distribution.csv")
 
-## Counts over time graph
-def line_format(label):
-    """
-    Convert time label to the format of pandas line plot
-    """
-    lab = label.month_name()[:3]
-    if lab == "Jan":
-        lab += f"\n{label.year}"
-    if lab == "Feb" and label.year == 2019:
-        lab = f"\n{label.year}"
-    return lab
-
-
-def generic_graph_settings():
-    xlim = ax.get_xlim()
-    ax.grid(b=False)
-    ax.set_title(title, loc="left")
-    ax.set_xlim(xlim)
-    ax.set_ylim(ymin=0)
-    ax.set_ylabel("Count of code use per week")
-    plt.tight_layout()
-
-
-monthly_counts = (
-    df.set_index("first_long_covid_date")["long_covid"].resample("M").count()
-)
-monthly_counts.loc[monthly_counts.isin([1, 2, 3, 4, 5])] = np.nan
-print(monthly_counts)
-ax = monthly_counts.plot(kind="bar", width=1, zorder=0)
-title = "Code use per week"
-ax.set_xticklabels(map(line_format, monthly_counts.index), rotation="horizontal")
-ax.xaxis.label.set_visible(False)
-generic_graph_settings()
-plt.savefig("output/code_use_per_week.svg")
-plt.close()
+# Weekly counts
+weekly_counts = df.set_index("first_long_covid_date")["long_covid"]
+weekly_counts = weekly_counts.resample("W").count()
+weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
+print(weekly_counts)
+weekly_counts.to_csv("output/code_use_per_week.csv")
