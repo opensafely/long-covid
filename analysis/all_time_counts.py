@@ -6,7 +6,7 @@ from common_variables import demographic_variables, clinical_variables
 
 pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
-stratifiers = list(demographic_variables.keys())
+stratifiers = list(demographic_variables.keys()) + list(clinical_variables.keys())
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
