@@ -56,7 +56,7 @@ practice_emis = practice_emis.rename(columns={"long_covid.1": "EMIS"})
 practice_emis = (practice_emis / practice_emis.sum()) * 100
 practice_total = pd.concat([practice_tpp, practice_emis], axis=1)
 ax = practice_total.plot(kind="bar", width=0.8)
-title = "Distribution of code use by amongst practices"
+title = "Distribution of code use amongst practices"
 ax.set_xlabel("Total number of long COVID codes recorded in each practice")
 ax.set_xticklabels(["0", "1", "2", "3", "4", "5", "6-10", "11+"])
 ax.set_ylabel("Percentage of practices")
