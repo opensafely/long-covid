@@ -1,34 +1,34 @@
-Attribute,Category,No long-covid,Long-covid,"Rate per 100,000",%
-age_group,0-17,4935735,59,1.2,2.2
-age_group,18-24,2065372,112,5.4,4.2
-age_group,25-34,3515255,302,8.6,11.3
-age_group,35-44,3268629,576,17.6,21.6
-age_group,45-54,3326112,730,21.9,27.4
-age_group,55-69,4222956,694,16.4,26.0
-age_group,70-79,2110014,145,6.9,5.4
-age_group,80+,1352083,51,3.8,1.9
-sex,F,12420246,1672,13.5,62.6
-sex,M,12375910,997,8.1,37.4
-region,East,5606025,528,9.4,19.8
-region,East Midlands,4183934,385,9.2,14.5
-region,London,1686784,101,6.0,3.8
-region,North East,1099688,151,13.7,5.7
-region,North West,2060322,198,9.6,7.4
-region,South East,1581326,438,27.7,16.4
-region,South West,3285696,420,12.8,15.8
-region,West Midlands,990482,115,11.6,4.3
-region,Yorkshire and The Humber,3412663,328,9.6,12.3
-imd,0,538385,72,13.4,2.7
-imd,1,4995719,460,9.2,17.2
-imd,2,4891272,484,9.9,18.1
-imd,3,5125710,597,11.6,22.4
-imd,4,4806686,559,11.6,20.9
-imd,5,4438384,497,11.2,18.6
-ethnicity,1,14878132,1737,11.7,85.0
-ethnicity,2,327958,31,9.5,1.5
-ethnicity,3,1533692,190,12.4,9.3
-ethnicity,4,531964,55,10.3,2.7
-ethnicity,5,497840,30,6.0,1.5
-previous_covid,COVID hospitalised,79097,185,233.3,6.9
-previous_covid,COVID positive,1239350,1829,147.4,68.5
-previous_covid,No COVID code,23477709,655,2.8,24.5
+Attribute,Category,No long COVID,Long COVID,"Rate per 100,000",%
+age_group,0-17,4935735.0,59.0,1.2,2.2
+age_group,18-24,2065372.0,112.0,5.4,4.2
+age_group,25-34,3515255.0,302.0,8.6,11.3
+age_group,35-44,3268629.0,576.0,17.6,21.6
+age_group,45-54,3326112.0,730.0,21.9,27.4
+age_group,55-69,4222956.0,694.0,16.4,26.0
+age_group,70-79,2110014.0,145.0,6.9,5.4
+age_group,80+,1352083.0,51.0,3.8,1.9
+sex,F,12420246.0,1672.0,13.5,62.6
+sex,M,12375910.0,997.0,8.1,37.4
+region,East,5606025.0,528.0,9.4,19.8
+region,East Midlands,4183934.0,385.0,9.2,14.5
+region,London,1686784.0,101.0,6.0,3.8
+region,North East,1099688.0,151.0,13.7,5.7
+region,North West,2060322.0,198.0,9.6,7.4
+region,South East,1581326.0,438.0,27.7,16.4
+region,South West,3285696.0,420.0,12.8,15.8
+region,West Midlands,990482.0,115.0,11.6,4.3
+region,Yorkshire and The Humber,3412663.0,328.0,9.6,12.3
+imd,0,538385.0,72.0,13.4,2.7
+imd,1,4995719.0,460.0,9.2,17.2
+imd,2,4891272.0,484.0,9.9,18.1
+imd,3,5125710.0,597.0,11.6,22.4
+imd,4,4806686.0,559.0,11.6,20.9
+imd,5,4438384.0,497.0,11.2,18.6
+ethnicity,1,14878132.0,1737.0,11.7,85.0
+ethnicity,2,327958.0,31.0,9.5,1.5
+ethnicity,3,1533692.0,190.0,12.4,9.3
+ethnicity,4,531964.0,55.0,10.3,2.7
+ethnicity,5,497840.0,30.0,6.0,1.5
+previous_covid,COVID hospitalised,79097.0,185.0,233.3,6.9
+previous_covid,COVID positive,1239350.0,1829.0,147.4,68.5
+previous_covid,No COVID code,23477709.0,655.0,2.8,24.5
