@@ -17,6 +17,8 @@ def make_variable(code):
             patients.with_these_clinical_events(
                 codelist([code], system="snomed"),
                 returning="number_of_matches_in_period",
+                include_date_of_match=True,
+                date_format="YYYY-MM-DD",
                 return_expectations={
                     "incidence": 0.05,
                     "int": {"distribution": "normal", "mean": 3, "stddev": 1},
@@ -26,9 +28,9 @@ def make_variable(code):
     }
 
 
-def loop_over_codes(codelist):
+def loop_over_codes(code_list):
     variables = {}
-    for code in codelist:
+    for code in code_list:
         variables.update(make_variable(code))
     return variables
 
