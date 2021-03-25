@@ -45,7 +45,13 @@ study = StudyDefinition(
     },
     index_date="2020-02-01",
     population=patients.satisfying(
-        "has_follow_up AND (sex = 'M' OR sex = 'F')",
+        """
+        has_follow_up
+        AND
+        (sex = 'M' OR sex = 'F')
+        AND
+        previous_covid != 'No COVID code'
+        """,
         has_follow_up=patients.registered_with_one_practice_between(
             "index_date", "index_date - 1 year"
         ),
