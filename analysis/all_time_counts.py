@@ -113,12 +113,12 @@ weekly_counts.to_csv("output/code_use_per_week.csv")
 ## COVID to long COVID interval
 def interval_until(col):
     interval = (df[col] - first_covid_date).dt.days.dropna()
-    bins = [-1000, -1, 0, 28, 84, 1000]
+    bins = [-1000, -1, 0, 28, 56, 84, 112, 140, 168, 196, 1000]
     interval = interval.groupby(pd.cut(interval, bins)).count()
     interval.loc[interval.isin([1, 2, 3, 4, 5])] = np.nan
     write_to_file(f"Timing of {col} relative to COVID:\n{interval}")
     interval.to_csv(f"output/interval_{col}.csv")
 
 
-for col in ["first_long_covid_date"] + individual_code_dates[0:2]:
+for col in ["first_long_covid_date"] + individual_code_dates[0:5]:
     interval_until(col)
