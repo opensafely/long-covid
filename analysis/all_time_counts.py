@@ -106,6 +106,7 @@ practice_distribution.to_csv("output/practice_distribution.csv")
 # Weekly counts
 weekly_counts = df.set_index("first_long_covid_date")["long_covid"]
 weekly_counts = weekly_counts.resample("W").count()
+weekly_counts = weekly_counts.loc["2020-01-01":]
 weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
 print(weekly_counts)
 weekly_counts.to_csv("output/code_use_per_week.csv")
