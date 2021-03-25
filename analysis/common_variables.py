@@ -83,15 +83,15 @@ demographic_variables = dict(
                                 AND NOT hospital_covid
                                 """,
             "COVID hospitalised": "hospital_covid",
-            "No COVID code": "DEFAULT",
+            "0": "DEFAULT",
         },
         return_expectations={
             "incidence": 1,
             "category": {
                 "ratios": {
-                    "COVID positive": 0.4,
+                    "COVID positive": 0.5,
                     "COVID hospitalised": 0.4,
-                    "No COVID code": 0.2,
+                    "0": 0.1,
                 }
             },
         },

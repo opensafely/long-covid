@@ -50,7 +50,7 @@ study = StudyDefinition(
         AND
         (sex = 'M' OR sex = 'F')
         AND
-        previous_covid != 'No COVID code'
+        previous_covid != '0'
         """,
         has_follow_up=patients.registered_with_one_practice_between(
             "index_date", "index_date - 1 year"
