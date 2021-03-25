@@ -95,11 +95,6 @@ demographic_variables = dict(
                 }
             },
         },
-        sgss_positive=patients.with_test_result_in_sgss(
-            pathogen="SARS-CoV-2", test_result="positive"
-        ),
-        primary_care_covid=patients.with_these_clinical_events(any_primary_care_code),
-        hospital_covid=patients.admitted_to_hospital(with_these_diagnoses=covid_codes),
     ),
 )
 
