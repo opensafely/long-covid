@@ -1,0 +1,104 @@
+Total patients coded: 2352
+
+Patients coded in the highest 10 practices: 396
+
+Summary stats by practice:
+count    2550.000000
+mean        0.922353
+std         3.588407
+min         0.000000
+25%         0.000000
+50%         0.000000
+75%         1.000000
+max       139.000000
+Name: long_covid, dtype: float64
+
+Distribution of coding within practices: long_covid
+(-1, 0]        1592
+(0, 1]          525
+(1, 2]          194
+(2, 3]           93
+(3, 4]           55
+(4, 5]           28
+(5, 10]          47
+(10, 10000]      16
+Name: long_covid, dtype: int64
+
+Timing of first_long_covid_date relative to COVID:
+(-1000, -1]     14.0
+(-1, 0]         11.0
+(0, 28]        557.0
+(28, 56]       458.0
+(56, 84]       497.0
+(84, 112]      275.0
+(112, 140]     212.0
+(140, 168]      62.0
+(168, 196]      27.0
+(196, 1000]    236.0
+dtype: float64
+
+Timing of snomed_1325161000000102_date relative to COVID:
+(-1000, -1]      NaN
+(-1, 0]          0.0
+(0, 28]         75.0
+(28, 56]       100.0
+(56, 84]        66.0
+(84, 112]       63.0
+(112, 140]      52.0
+(140, 168]      18.0
+(168, 196]       NaN
+(196, 1000]     50.0
+dtype: float64
+
+Timing of snomed_1325181000000106_date relative to COVID:
+(-1000, -1]      9.0
+(-1, 0]          6.0
+(0, 28]        393.0
+(28, 56]       234.0
+(56, 84]       157.0
+(84, 112]       83.0
+(112, 140]      34.0
+(140, 168]       8.0
+(168, 196]       9.0
+(196, 1000]     79.0
+dtype: float64
+
+Timing of snomed_1325021000000106_date relative to COVID:
+(-1000, -1]      NaN
+(-1, 0]          NaN
+(0, 28]         55.0
+(28, 56]        62.0
+(56, 84]       183.0
+(84, 112]       34.0
+(112, 140]      33.0
+(140, 168]       8.0
+(168, 196]       NaN
+(196, 1000]     26.0
+dtype: float64
+
+Timing of snomed_1325031000000108_date relative to COVID:
+(-1000, -1]     NaN
+(-1, 0]         0.0
+(0, 28]        11.0
+(28, 56]       41.0
+(56, 84]       64.0
+(84, 112]      43.0
+(112, 140]     55.0
+(140, 168]     16.0
+(168, 196]      NaN
+(196, 1000]    43.0
+dtype: float64
+
+Timing of snomed_1325041000000104_date relative to COVID:
+(-1000, -1]     NaN
+(-1, 0]         NaN
+(0, 28]        10.0
+(28, 56]       63.0
+(56, 84]       86.0
+(84, 112]      78.0
+(112, 140]     68.0
+(140, 168]     28.0
+(168, 196]      6.0
+(196, 1000]    71.0
+dtype: float64
+
