@@ -3,6 +3,12 @@ from codelists import *
 
 
 demographic_variables = dict(
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+        }
+    ),
     age_group=patients.categorised_as(
         {
             "0-17": "age < 18",
@@ -32,30 +38,14 @@ demographic_variables = dict(
         },
         age=patients.age_as_of("index_date"),
     ),
-    sex=patients.sex(
+    ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        on_or_before="index_date",
         return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-        }
-    ),
-    region=patients.registered_practice_as_of(
-        "index_date",
-        returning="nuts1_region_name",
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "North East": 0.1,
-                    "North West": 0.1,
-                    "Yorkshire and The Humber": 0.1,
-                    "East Midlands": 0.1,
-                    "West Midlands": 0.1,
-                    "East": 0.1,
-                    "London": 0.2,
-                    "South East": 0.1,
-                    "South West": 0.1,
-                },
-            },
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
         },
     ),
     imd=patients.categorised_as(
@@ -86,16 +76,6 @@ demographic_variables = dict(
             },
         },
     ),
-    ethnicity=patients.with_these_clinical_events(
-        ethnicity_codes,
-        returning="category",
-        find_last_match_in_period=True,
-        on_or_before="index_date",
-        return_expectations={
-            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-            "incidence": 0.75,
-        },
-    ),
     previous_covid=patients.categorised_as(
         {
             "COVID positive": """
@@ -103,15 +83,15 @@ demographic_variables = dict(
                                 AND NOT hospital_covid
                                 """,
             "COVID hospitalised": "hospital_covid",
-            "No COVID code": "DEFAULT",
+            "0": "DEFAULT",
         },
         return_expectations={
             "incidence": 1,
             "category": {
                 "ratios": {
-                    "COVID positive": 0.4,
+                    "COVID positive": 0.5,
                     "COVID hospitalised": 0.4,
-                    "No COVID code": 0.2,
+                    "0": 0.1,
                 }
             },
         },
