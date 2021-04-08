@@ -43,12 +43,10 @@ study = StudyDefinition(
         "int": {"distribution": "normal", "mean": 25, "stddev": 5},
         "float": {"distribution": "normal", "mean": 25, "stddev": 5},
     },
-    index_date="2020-02-01",
+    index_date="2020-11-01",
     population=patients.satisfying(
-        "has_follow_up AND (sex = 'M' OR sex = 'F')",
-        has_follow_up=patients.registered_with_one_practice_between(
-            "index_date", "index_date - 1 year"
-        ),
+        "registered AND (sex = 'M' OR sex = 'F')",
+        registered=patients.registered_as_of("index_date"),
     ),
     # COVID infection
     sgss_positive=patients.with_test_result_in_sgss(
