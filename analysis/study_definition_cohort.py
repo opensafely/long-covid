@@ -20,7 +20,7 @@ def make_variable(code):
                 include_date_of_match=True,
                 date_format="YYYY-MM-DD",
                 return_expectations={
-                    "incidence": 0.05,
+                    "incidence": 0.1,
                     "int": {"distribution": "normal", "mean": 3, "stddev": 1},
                 },
             )
@@ -37,18 +37,39 @@ def loop_over_codes(code_list):
 
 study = StudyDefinition(
     default_expectations={
-        "date": {"earliest": "1900-01-01", "latest": "today"},
+        "date": {"earliest": "index_date", "latest": "today"},
         "rate": "uniform",
         "incidence": 0.05,
         "int": {"distribution": "normal", "mean": 25, "stddev": 5},
         "float": {"distribution": "normal", "mean": 25, "stddev": 5},
     },
-    index_date="2020-02-01",
+    index_date="2020-11-01",
     population=patients.satisfying(
-        "has_follow_up AND (sex = 'M' OR sex = 'F')",
-        has_follow_up=patients.registered_with_one_practice_between(
-            "index_date", "index_date - 1 year"
-        ),
+        "registered AND (sex = 'M' OR sex = 'F')",
+        registered=patients.registered_as_of("index_date"),
+    ),
+    # COVID infection
+    sgss_positive=patients.with_test_result_in_sgss(
+        pathogen="SARS-CoV-2",
+        test_result="positive",
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    ),
+    primary_care_covid=patients.with_these_clinical_events(
+        any_primary_care_code,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    ),
+    hospital_covid=patients.admitted_to_hospital(
+        with_these_diagnoses=covid_codes,
+        returning="date_admitted",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     ),
     # Outcome
     long_covid=patients.with_these_clinical_events(
@@ -60,7 +81,7 @@ study = StudyDefinition(
         returning="date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.05, "date": {"earliest": "index_date"}},
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     ),
     **loop_over_codes(any_long_covid_code),
     first_long_covid_code=patients.with_these_clinical_events(
