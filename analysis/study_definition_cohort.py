@@ -10,12 +10,15 @@ from cohortextractor import (
 from codelists import *
 from common_variables import demographic_variables, clinical_variables
 
+pandemic_start = "2020-02-01"
+
 
 def make_variable(code):
     return {
         f"snomed_{code}": (
             patients.with_these_clinical_events(
                 codelist([code], system="snomed"),
+                on_or_after=pandemic_start,
                 returning="number_of_matches_in_period",
                 include_date_of_match=True,
                 date_format="YYYY-MM-DD",
@@ -78,6 +81,20 @@ study = StudyDefinition(
             },
         },
     ),
+    post_viral_fatigue=patients.with_these_clinical_events(
+        post_viral_fatigue_codes,
+        on_or_after=pandemic_start,
+        return_expectations={"incidence": 0.05},
+    ),
+    first_post_viral_fatigue_date=patients.with_these_clinical_events(
+        post_viral_fatigue_codes,
+        on_or_after=pandemic_start,
+        returning="date",
+        date_format="YYYY-MM-DD",
+        find_first_match_in_period=True,
+        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+    ),
+    **loop_over_codes(post_viral_fatigue_codes),
     practice_id=patients.registered_practice_as_of(
         "index_date",
         returning="pseudo_id",

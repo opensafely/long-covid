@@ -43,6 +43,11 @@ long_covid_assessment_codes = codelist_from_csv(
 any_long_covid_code = combine_codelists(
     long_covid_diagnostic_codes, long_covid_referral_codes, long_covid_assessment_codes
 )
+post_viral_fatigue_codes = codelist_from_csv(
+    "codelists/user-alex-walker-post-viral-syndrome.csv",
+    system="snomed",
+    column="code",
+)
 ethnicity_codes = codelist_from_csv(
     "codelists/opensafely-ethnicity.csv",
     system="ctv3",

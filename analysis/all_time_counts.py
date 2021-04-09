@@ -11,6 +11,7 @@ long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
     "opensafely-assessment-instruments-and-outcome-measures-for-long-covid",
+    "user-alex-walker-post-viral-syndrome",
 ]
 combined_codelists = [
     pd.read_csv(f"codelists/{path}.csv", index_col="code")
@@ -91,10 +92,15 @@ practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
 write_to_file(f"Distribution of coding within practices: {practice_distribution}")
 practice_distribution.to_csv("output/practice_distribution.csv")
 
-# Weekly counts
-weekly_counts = df.set_index("first_long_covid_date")["long_covid"]
-weekly_counts = weekly_counts.resample("W").count()
-weekly_counts = weekly_counts.loc["2020-01-01":]
-weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
-print(weekly_counts)
-weekly_counts.to_csv("output/code_use_per_week.csv")
+
+def weekly_counts(variable):
+    weekly_counts = df.set_index(f"first_{variable}_date")[variable]
+    weekly_counts = weekly_counts.resample("W").count()
+    weekly_counts = weekly_counts.loc["2020-01-01":]
+    weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
+    print(weekly_counts)
+    weekly_counts.to_csv(f"output/code_use_per_week_{variable}.csv")
+
+
+weekly_counts("long_covid")
+weekly_counts("post_viral_fatigue")
