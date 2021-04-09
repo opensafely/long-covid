@@ -17,7 +17,6 @@ combined_codelists = [
     for path in long_covid_codelists
 ]
 combined_codelists = pd.concat(combined_codelists)
-individual_code_dates = [f"snomed_{c}_date" for c in combined_codelists.index]
 
 
 def crosstab(idx):
@@ -53,18 +52,7 @@ def write_to_file(text_to_write, erase=False):
 df = pd.read_csv(
     "output/input_cohort.csv",
     index_col="patient_id",
-    parse_dates=[
-        "first_long_covid_date",
-        "sgss_positive",
-        "primary_care_covid",
-        "hospital_covid",
-    ]
-    + individual_code_dates,
-)
-
-# Find first COVID date
-first_covid_date = df[["sgss_positive", "primary_care_covid", "hospital_covid"]].min(
-    axis=1
+    parse_dates=["first_long_covid_date"],
 )
 
 ## Crosstabs
@@ -110,16 +98,3 @@ weekly_counts = weekly_counts.loc["2020-01-01":]
 weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
 print(weekly_counts)
 weekly_counts.to_csv("output/code_use_per_week.csv")
-
-## COVID to long COVID interval
-def interval_until(col):
-    interval = (df[col] - first_covid_date).dt.days.dropna()
-    bins = [-1000, -1, 0, 28, 56, 84, 112, 140, 168, 196, 1000]
-    interval = interval.groupby(pd.cut(interval, bins)).count()
-    interval.loc[interval.isin([1, 2, 3, 4, 5])] = np.nan
-    write_to_file(f"Timing of {col} relative to COVID:\n{interval}")
-    interval.to_csv(f"output/interval_{col}.csv")
-
-
-for col in ["first_long_covid_date"] + individual_code_dates[0:5]:
-    interval_until(col)
