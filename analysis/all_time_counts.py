@@ -53,7 +53,7 @@ def write_to_file(text_to_write, erase=False):
 df = pd.read_csv(
     "output/input_cohort.csv",
     index_col="patient_id",
-    parse_dates=["first_long_covid_date"],
+    parse_dates=["first_long_covid_date", "first_post_viral_fatigue_date"],
 )
 
 ## Crosstabs
