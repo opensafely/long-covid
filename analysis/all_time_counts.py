@@ -1,4 +1,5 @@
 import os
+import csv
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -48,6 +49,15 @@ def write_to_file(text_to_write, erase=False):
         print(text_to_write)
         txt.writelines("\n")
         print("\n")
+
+
+with open("output/input_cohort.csv") as f:
+    reader = csv.DictReader(f)
+    usecols = [
+        col
+        for col in reader.fieldnames
+        if not (col.startswith("snomed_") and col.endswith("_date"))
+    ]
 
 
 df = pd.read_csv(
