@@ -54,6 +54,13 @@ df = pd.read_csv(
     "output/input_cohort.csv",
     index_col="patient_id",
     parse_dates=["first_long_covid_date", "first_post_viral_fatigue_date"],
+    dtype={
+        "first_long_covid_code": "category",
+        # "age_group": "category",
+        "sex": "category",
+        "imd": "category",
+        "ethnicity": "category",
+    },
 )
 
 ## Crosstabs
