@@ -73,7 +73,7 @@ redact_small_numbers(all_together, "Long COVID").to_csv("output/counts_table.csv
 
 ## All long-covid codes table
 codes = [str(code) for code in combined_codelists.index]
-all_codes = df.copy()
+all_codes = df
 all_codes.columns = all_codes.columns.str.lstrip("snomed_")
 all_codes = all_codes[codes].sum().T
 all_codes = all_codes.rename("Total records")
