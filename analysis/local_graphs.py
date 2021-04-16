@@ -17,13 +17,13 @@ def generic_graph_settings():
 
 
 week_tpp = pd.read_csv(
-    "released_outputs/output/code_use_per_week.csv",
+    "released_outputs/output/code_use_per_week_long_covid.csv",
     index_col="first_long_covid_date",
     parse_dates=["first_long_covid_date"],
 )
 week_tpp = week_tpp.rename(columns={"long_covid": "TPP"})
 week_emis = pd.read_csv(
-    "released_outputs/emis/code_use_per_week.csv",
+    "released_outputs/emis/code_use_per_week_long_covid.csv",
     index_col="first_long_covid_date",
     parse_dates=["first_long_covid_date"],
 )
