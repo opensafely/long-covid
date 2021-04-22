@@ -50,6 +50,8 @@ study = StudyDefinition(
         AND
         (sex = 'M' OR sex = 'F')
         AND
+        age >= 18
+        AND
         previous_covid != '0'
         """,
         has_follow_up=patients.registered_with_one_practice_between(
@@ -88,33 +90,27 @@ study = StudyDefinition(
         any_long_covid_code,
         returning="date",
         date_format="YYYY-MM-DD",
-        find_first_match_in_period=True,
+        find_last_match_in_period=True,
         return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
     ),
-    **loop_over_codes(any_long_covid_code),
-    first_long_covid_code=patients.with_these_clinical_events(
-        any_long_covid_code,
-        returning="code",
-        find_first_match_in_period=True,
+    previous_covid=patients.categorised_as(
+        {
+            "COVID positive": """
+                                (sgss_positive OR primary_care_covid)
+                                AND NOT hospital_covid
+                                """,
+            "COVID hospitalised": "hospital_covid",
+            "0": "DEFAULT",
+        },
         return_expectations={
-            "incidence": 0.05,
+            "incidence": 1,
             "category": {
                 "ratios": {
-                    "1325161000000102": 0.2,
-                    "1325181000000106": 0.2,
-                    "1325021000000106": 0.3,
-                    "1325051000000101": 0.2,
-                    "1325061000000103": 0.1,
+                    "COVID positive": 0.5,
+                    "COVID hospitalised": 0.4,
+                    "0": 0.1,
                 }
             },
-        },
-    ),
-    practice_id=patients.registered_practice_as_of(
-        "index_date",
-        returning="pseudo_id",
-        return_expectations={
-            "int": {"distribution": "normal", "mean": 1000, "stddev": 100},
-            "incidence": 1,
         },
     ),
     **demographic_variables,
