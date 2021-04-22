@@ -6,7 +6,6 @@ from common_variables import demographic_variables, clinical_variables
 
 pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
-stratifiers = list(demographic_variables.keys()) + list(clinical_variables.keys())
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
@@ -58,8 +57,7 @@ df = pd.read_csv(
         "sgss_positive",
         "primary_care_covid",
         "hospital_covid",
-    ]
-    + individual_code_dates,
+    ],
 )
 
 # Find first COVID date
@@ -68,58 +66,32 @@ first_covid_date = df[["sgss_positive", "primary_care_covid", "hospital_covid"]]
 )
 
 ## Crosstabs
+df["comorbidities"] = df[
+    [
+        "diabetes",
+        "cancer",
+        "haem_cancer",
+        "asthma",
+        "chronic_respiratory_disease",
+        "chronic_cardiac_disease",
+        "chronic_liver_disease",
+        "stroke_or_dementia",
+        "other_neuro",
+        "organ_transplant",
+        "dysplenia",
+        "ra_sle_psoriasis",
+        "other_immunosup_cond",
+    ]
+].sum(axis=1)
+df.loc[df["comorbidities"] > 2, "comorbidities"] = 2
+stratifiers = list(demographic_variables.keys()) + [
+    "bmi",
+    "comorbidities",
+    "mental_health",
+]
 crosstabs = [crosstab(df[v]) for v in stratifiers]
 all_together = pd.concat(
     crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
 )
 print(all_together)
 redact_small_numbers(all_together, "Long COVID").to_csv("output/counts_table.csv")
-
-## All long-covid codes table
-codes = [str(code) for code in combined_codelists.index]
-all_codes = df.copy()
-all_codes.columns = all_codes.columns.str.lstrip("snomed_")
-all_codes = all_codes[codes].sum().T
-all_codes = all_codes.rename("Total records")
-all_codes.index = all_codes.index.astype("int64")
-all_codes = combined_codelists.join(all_codes)
-all_codes["%"] = (all_codes["Total records"] / all_codes["Total records"].sum()) * 100
-redact_small_numbers(all_codes, "Total records").to_csv(
-    "output/all_long_covid_codes.csv"
-)
-print(all_codes.columns)
-
-## Descriptives by practice
-by_practice = (
-    df[["long_covid", "practice_id"]].groupby("practice_id").sum()["long_covid"]
-)
-write_to_file(f"Total patients coded: {by_practice.sum()}", erase=True)
-top_10_count = by_practice.sort_values().tail(10).sum()
-write_to_file(f"Patients coded in the highest 10 practices: {top_10_count}")
-practice_summ = by_practice.describe()
-write_to_file(f"Summary stats by practice:\n{practice_summ}")
-ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
-practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
-write_to_file(f"Distribution of coding within practices: {practice_distribution}")
-practice_distribution.to_csv("output/practice_distribution.csv")
-
-# Weekly counts
-weekly_counts = df.set_index("first_long_covid_date")["long_covid"]
-weekly_counts = weekly_counts.resample("W").count()
-weekly_counts = weekly_counts.loc["2020-01-01":]
-weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
-print(weekly_counts)
-weekly_counts.to_csv("output/code_use_per_week.csv")
-
-## COVID to long COVID interval
-def interval_until(col):
-    interval = (df[col] - first_covid_date).dt.days.dropna()
-    bins = [-1000, -1, 0, 28, 56, 84, 112, 140, 168, 196, 1000]
-    interval = interval.groupby(pd.cut(interval, bins)).count()
-    interval.loc[interval.isin([1, 2, 3, 4, 5])] = np.nan
-    write_to_file(f"Timing of {col} relative to COVID:\n{interval}")
-    interval.to_csv(f"output/interval_{col}.csv")
-
-
-for col in ["first_long_covid_date"] + individual_code_dates[0:5]:
-    interval_until(col)

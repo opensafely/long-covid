@@ -203,6 +203,18 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/warfarin/2020-10-05/",
       "downloaded_at": "2021-03-11 21:27:46.968880Z",
       "sha": "971d819a24d4c04bea3000390e9fb2f718fb3b22"
+    },
+    "opensafely-psychosis-schizophrenia-bipolar-affective-disease.csv": {
+      "id": "opensafely/psychosis-schizophrenia-bipolar-affective-disease/0311653f",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/psychosis-schizophrenia-bipolar-affective-disease/0311653f/",
+      "downloaded_at": "2021-04-20 16:51:52.229742Z",
+      "sha": "c7c23c83a155cab15a41b21e10e26f33ca17bc3f"
+    },
+    "opensafely-depression.csv": {
+      "id": "opensafely/depression/1c20d874",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/depression/1c20d874/",
+      "downloaded_at": "2021-04-20 16:51:52.389638Z",
+      "sha": "654835e97c0cee53307db7ebd8becf48d0e3f31b"
     }
   }
 }
