@@ -17,3 +17,11 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/counts_table.csv
+
+  logistic_models:
+    run: stata-mp:latest analysis/model.do
+    needs: [generate_cohort]
+    outputs:
+      moderately_sensitive:
+        table: output/model_summary.csv
+        log: logs/models.log
