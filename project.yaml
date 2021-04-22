@@ -17,7 +17,3 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/counts_table.csv
-        practice_distribution: output/practice_distribution.csv
-        per_week: output/code_use_per_week.csv
-        code_table: output/all_long_covid_codes.csv
-        practice_summ: output/practice_summ.txt
