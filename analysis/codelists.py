@@ -142,3 +142,11 @@ chronic_liver_disease_codes = codelist_from_csv(
 diabetes_codes = codelist_from_csv(
     "codelists/opensafely-diabetes.csv", system="ctv3", column="CTV3ID"
 )
+psychosis_schizophrenia_bipolar_codes = codelist_from_csv(
+    "codelists/opensafely-psychosis-schizophrenia-bipolar-affective-disease.csv",
+    system="ctv3",
+    column="CTV3Code",
+)
+depression_codes = codelist_from_csv(
+    "codelists/opensafely-depression.csv", system="ctv3", column="CTV3Code"
+)
