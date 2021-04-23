@@ -1,11 +1,16 @@
-from cohortextractor import patients
+from cohortextractor import patients, combine_codelists
 from codelists import *
 
 
 demographic_variables = dict(
+    sex=patients.sex(
+        return_expectations={
+            "rate": "universal",
+            "category": {"ratios": {"M": 0.49, "F": 0.51}},
+        }
+    ),
     age_group=patients.categorised_as(
         {
-            "0-17": "age < 18",
             "18-24": "age >= 18 AND age < 25",
             "25-34": "age >= 25 AND age < 35",
             "35-44": "age >= 35 AND age < 45",
@@ -19,10 +24,9 @@ demographic_variables = dict(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0-17": 0.1,
                     "18-24": 0.1,
                     "25-34": 0.1,
-                    "35-44": 0.1,
+                    "35-44": 0.2,
                     "45-54": 0.2,
                     "55-69": 0.2,
                     "70-79": 0.1,
@@ -32,30 +36,14 @@ demographic_variables = dict(
         },
         age=patients.age_as_of("index_date"),
     ),
-    sex=patients.sex(
+    ethnicity=patients.with_these_clinical_events(
+        ethnicity_codes,
+        returning="category",
+        find_last_match_in_period=True,
+        on_or_before="index_date",
         return_expectations={
-            "rate": "universal",
-            "category": {"ratios": {"M": 0.49, "F": 0.51}},
-        }
-    ),
-    region=patients.registered_practice_as_of(
-        "index_date",
-        returning="nuts1_region_name",
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "North East": 0.1,
-                    "North West": 0.1,
-                    "Yorkshire and The Humber": 0.1,
-                    "East Midlands": 0.1,
-                    "West Midlands": 0.1,
-                    "East": 0.1,
-                    "London": 0.2,
-                    "South East": 0.1,
-                    "South West": 0.1,
-                },
-            },
+            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
+            "incidence": 0.75,
         },
     ),
     imd=patients.categorised_as(
@@ -82,36 +70,6 @@ demographic_variables = dict(
                     "3": 0.19,
                     "4": 0.19,
                     "5": 0.19,
-                }
-            },
-        },
-    ),
-    ethnicity=patients.with_these_clinical_events(
-        ethnicity_codes,
-        returning="category",
-        find_last_match_in_period=True,
-        on_or_before="index_date",
-        return_expectations={
-            "category": {"ratios": {"1": 0.8, "5": 0.1, "3": 0.1}},
-            "incidence": 0.75,
-        },
-    ),
-    previous_covid=patients.categorised_as(
-        {
-            "COVID positive": """
-                                (sgss_positive OR primary_care_covid)
-                                AND NOT hospital_covid
-                                """,
-            "COVID hospitalised": "hospital_covid",
-            "No COVID code": "DEFAULT",
-        },
-        return_expectations={
-            "incidence": 1,
-            "category": {
-                "ratios": {
-                    "COVID positive": 0.4,
-                    "COVID hospitalised": 0.4,
-                    "No COVID code": 0.2,
                 }
             },
         },
@@ -158,35 +116,15 @@ clinical_variables = dict(
         haem_cancer_codes, on_or_before="index_date - 1 day"
     ),
     # egfr
-    asthma=patients.categorised_as(
-        {
-            "0": "DEFAULT",
-            "1": """
-            (
-              recent_asthma_code OR (
-                asthma_code_ever AND NOT
-                copd_code_ever
-              )
-            ) AND (
-              prednisolone_last_year = 0 OR 
-              prednisolone_last_year > 4
+    asthma=patients.satisfying(
+        """
+            recent_asthma_code OR (
+              asthma_code_ever AND NOT
+              copd_code_ever
             )
         """,
-            "2": """
-            (
-              recent_asthma_code OR (
-                asthma_code_ever AND NOT
-                copd_code_ever
-              )
-            ) AND
-            prednisolone_last_year > 0 AND
-            prednisolone_last_year < 5
-            
-        """,
-        },
         return_expectations={
-            "category": {"ratios": {"0": 0.8, "1": 0.1, "2": 0.1}},
-            "incidence": 1,
+            "incidence": 0.05,
         },
         recent_asthma_code=patients.with_these_clinical_events(
             asthma_codes,
@@ -195,11 +133,6 @@ clinical_variables = dict(
         asthma_code_ever=patients.with_these_clinical_events(asthma_codes),
         copd_code_ever=patients.with_these_clinical_events(
             chronic_respiratory_disease_codes
-        ),
-        prednisolone_last_year=patients.with_these_medications(
-            prednisolone_codes,
-            between=["index_date - 1 years", "index_date - 1 day"],
-            returning="number_of_matches_in_period",
         ),
     ),
     chronic_respiratory_disease=patients.with_these_clinical_events(
@@ -233,7 +166,7 @@ clinical_variables = dict(
     ra_sle_psoriasis=patients.with_these_clinical_events(
         ra_sle_psoriasis_codes, on_or_before="index_date - 1 day"
     ),
-    other_immunosuppressive_condition=patients.satisfying(
+    other_immunosup_cond=patients.satisfying(
         """
            sickle_cell
         OR aplastic_anaemia
@@ -256,5 +189,9 @@ clinical_variables = dict(
         temporary_immunodeficiency=patients.with_these_clinical_events(
             temp_immune_codes, on_or_before="index_date - 1 day"
         ),
+    ),
+    mental_health=patients.with_these_clinical_events(
+        combine_codelists(psychosis_schizophrenia_bipolar_codes, depression_codes),
+        on_or_before="index_date - 1 day",
     ),
 )
