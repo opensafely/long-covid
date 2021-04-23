@@ -24,4 +24,5 @@ actions:
     outputs:
       moderately_sensitive:
         table: output/model_summary.csv
+        table_dta: output/model_summary.dta
         log: logs/models.log
