@@ -62,6 +62,7 @@ foreach model in model_1 model_2 model_3 {
         }
     }
 }
+postclose `logistic_table'
 
 * Change postfiles to csv
 use $projectdir/output/model_summary, replace
