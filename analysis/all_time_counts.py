@@ -7,7 +7,7 @@ from common_variables import demographic_variables, clinical_variables
 
 pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
-stratifiers = list(demographic_variables.keys())
+stratifiers = list(demographic_variables.keys()) + ["RGN11NM"]
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
@@ -19,6 +19,13 @@ combined_codelists = [
     for path in long_covid_codelists
 ]
 combined_codelists = pd.concat(combined_codelists)
+## ONS MSOA to region map from here:
+## https://geoportal.statistics.gov.uk/datasets/fe6c55f0924b4734adf1cf7104a0173e_0/data
+msoa_to_region = pd.read_csv(
+    "analysis/ONS_MSOA_to_region_map.csv",
+    usecols=["MSOA11CD", "RGN11NM"],
+    dtype={"MSOA11CD": "category", "RGN11NM": "category"},
+)
 
 
 def crosstab(idx):
@@ -71,8 +78,11 @@ df = pd.read_csv(
         "sex": "category",
         "imd": "category",
         "ethnicity": "category",
+        "msoa": "category",
     },
 )
+## Map region from MSOA
+df = df.merge(msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD")
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
