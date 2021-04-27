@@ -104,5 +104,25 @@ study = StudyDefinition(
         },
     ),
     **demographic_variables,
+    msoa=patients.registered_practice_as_of(
+        "index_date",
+        returning="msoa",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "E02002488": 0.1,
+                    "E02002586": 0.1,
+                    "E02002677": 0.1,
+                    "E02002814": 0.1,
+                    "E02002915": 0.1,
+                    "E02003251": 0.1,
+                    "E02000003": 0.2,
+                    "E02003334": 0.1,
+                    "E02002986": 0.1,
+                },
+            },
+        },
+    ),
     # **clinical_variables,
 )
