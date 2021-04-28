@@ -106,7 +106,7 @@ study = StudyDefinition(
     **demographic_variables,
     msoa=patients.registered_practice_as_of(
         "index_date",
-        returning="msoa",
+        returning="msoa_code",
         return_expectations={
             "rate": "universal",
             "category": {
