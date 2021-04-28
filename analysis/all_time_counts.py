@@ -39,6 +39,7 @@ def crosstab(idx):
     ).round(1)
     all_cols = pd.concat([counts, rates, percentages], axis=1)
     all_cols.columns = cols
+    all_cols.index = all_cols.index.astype(str)
     return all_cols
 
 
@@ -58,29 +59,9 @@ def write_to_file(text_to_write, erase=False):
         print("\n")
 
 
-with open("output/input_cohort.csv") as f:
-    reader = csv.DictReader(f)
-    usecols = [
-        col
-        for col in reader.fieldnames
-        if not (col.startswith("snomed_") and col.endswith("_date"))
-    ]
-
-
-df = pd.read_csv(
-    "output/input_cohort.csv",
-    index_col="patient_id",
-    parse_dates=["first_long_covid_date", "first_post_viral_fatigue_date"],
-    usecols=usecols,
-    dtype={
-        "first_long_covid_code": "category",
-        # "age_group": "category",
-        "sex": "category",
-        "imd": "category",
-        "ethnicity": "category",
-        "msoa": "category",
-    },
-)
+df = pd.read_feather("output/input_cohort.feather")
+for v in ["first_long_covid_date", "first_post_viral_fatigue_date"]:
+    df[v] = df[v].astype("datetime64")
 ## Map region from MSOA
 df = df.merge(
     msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD", copy=False

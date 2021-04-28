@@ -6,10 +6,10 @@ expectations:
 actions:
 
   generate_cohort:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_cohort
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_cohort --output-format feather
     outputs:
       highly_sensitive:
-        cohort: output/input_cohort.csv
+        cohort: output/input_cohort.feather
 
   count_by_strata:
     run: python:latest python analysis/all_time_counts.py

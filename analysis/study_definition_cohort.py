@@ -20,8 +20,8 @@ def make_variable(code):
                 codelist([code], system="snomed"),
                 on_or_after=pandemic_start,
                 returning="number_of_matches_in_period",
-                include_date_of_match=True,
-                date_format="YYYY-MM-DD",
+                # include_date_of_match=True,
+                # date_format="YYYY-MM-DD",
                 return_expectations={
                     "incidence": 0.1,
                     "int": {"distribution": "normal", "mean": 3, "stddev": 1},
