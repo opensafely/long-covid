@@ -82,7 +82,9 @@ df = pd.read_csv(
     },
 )
 ## Map region from MSOA
-df = df.merge(msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD")
+df = df.merge(
+    msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD", copy=False
+)
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
