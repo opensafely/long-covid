@@ -27,11 +27,14 @@ def generate_code_variables(codelist):
                     "int": {"distribution": "normal", "mean": 3, "stddev": 1},
                 },
             )
-        ) for code in codelist
+        )
+        for code in codelist
     }
 
 
-demographics = {k: v for k, v in demographic_variables.items() if k in ["age_group", "sex"]}
+demographics = {
+    k: v for k, v in demographic_variables.items() if k in ["age_group", "sex"]
+}
 
 study = StudyDefinition(
     default_expectations={
@@ -97,6 +100,14 @@ study = StudyDefinition(
                     "1325061000000103": 0.1,
                 }
             },
+        },
+    ),
+    practice_id=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 1000, "stddev": 100},
+            "incidence": 1,
         },
     ),
     **demographics,
