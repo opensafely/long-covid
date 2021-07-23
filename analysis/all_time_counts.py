@@ -66,6 +66,8 @@ for v in ["first_long_covid_date", "first_post_viral_fatigue_date"]:
 df = df.merge(
     msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD", copy=False
 )
+if df["long_covid"].nunique() == 1:
+    df["long_covid"][0] = False
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
