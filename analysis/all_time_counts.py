@@ -66,6 +66,13 @@ for v in ["first_long_covid_date", "first_post_viral_fatigue_date"]:
 df = df.merge(
     msoa_to_region, how="left", left_on="msoa", right_on="MSOA11CD", copy=False
 )
+if df["long_covid"].nunique() == 1:
+    df["long_covid"][0] = False
+# Surface missing values
+df["ethnicity"] = df["ethnicity"].cat.add_categories(0)
+df["ethnicity"] = df["ethnicity"].fillna(0)
+df["RGN11NM"] = df["RGN11NM"].cat.add_categories("Missing")
+df["RGN11NM"] = df["RGN11NM"].fillna("Missing")
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
