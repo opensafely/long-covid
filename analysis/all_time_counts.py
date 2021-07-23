@@ -64,6 +64,10 @@ df = pd.read_csv(
     + individual_code_dates,
 )
 
+# Surface missing values
+df["ethnicity"] = df["ethnicity"].fillna(0)
+df["region"] = df["region"].fillna("AaMissing")
+
 # Find first COVID date
 first_covid_date = df[["sgss_positive", "primary_care_covid", "hospital_covid"]].min(
     axis=1
