@@ -1,7 +1,4 @@
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-
-from cohortextractor import Codelist, c, categorise, table
+from cohortextractor import categorise, codelist, table
 
 from codelists import (
     any_long_covid_code,
@@ -14,36 +11,46 @@ from codelists import (
 
 
 pandemic_start = "2020-02-01"
-
 index_date = "2020-11-01"
+bmi_code = "22K.."
 
 
 class Cohort:
 
+    # Population
+    # Patients registered on 2020-11-01
+    _registrations = table("practice_registrations").date_in_range(index_date)
+    population = _registrations.exists()
+    # Make sure we have just the latest registration per patient
+    _current_registrations = _registrations.latest("date_end")
+    practice_id = _current_registrations.get("pseudo_id")
+
     # COVID infection
-    _sgss_positives = table("sgss_sars_cov_2").filter(positive_result=True)
-    sgss_first_positive_test_date = _sgss_positives.earliest().get("date")
-
-    _primary_care_covid = table("clinical_events").filter(
-        "code", is_in=any_primary_care_code
+    sgss_first_positive_test_date = (
+        table("sgss_sars_cov_2").filter(positive_result=True).earliest().get("date")
     )
-    primary_care_covid_first_date = _primary_care_covid.earliest().get("date")
 
-    _hospital_covid = table("hospitalisation").filter("code", is_in=covid_codes)
-    hospital_covid_first_date = _hospital_covid.earliest().get("date")
+    primary_care_covid_first_date = (
+        table("clinical_events")
+        .filter("code", is_in=any_primary_care_code)
+        .earliest()
+        .get("date")
+    )
+
+    hospital_covid_first_date = (
+        table("hospitalizations")
+            .filter("code", is_in=covid_codes)
+            .earliest()
+            .get("date")
+    )
 
     # Outcome
     _long_covid_table = table("clinical_events").filter(
         "code", is_in=any_long_covid_code
     )
     long_covid = _long_covid_table.exists()
+    first_long_covid_date = _long_covid_table.earliest().get("date")
     first_long_covid_code = _long_covid_table.earliest().get("code")
-
-    # Population
-    # Patients registered on 2020-11-01
-    _registrations = table("practice_registrations").date_in_range(index_date)
-    population = _registrations.exists()
-    practice_id = _registrations.latest().get("pseudo_id")
 
     # Demographics
     # Age
@@ -64,15 +71,10 @@ class Cohort:
     sex = table("patients").get("sex")
 
     # Region
-    region = _registrations.latest().get("nuts1_region_name")
+    region = _current_registrations.get("nuts1_region_name")
 
     # IMD
-    _imd_value = (
-        table("patient_address")
-        .date_in_range(index_date)
-        .get("index_of_multiple_deprivation")
-        .round_to_nearest(100)
-    )
+    _imd_value = table("patient_address").imd_rounded_as_of(index_date)
     _imd_groups = {
         "1": (_imd_value >= 1) & (_imd_value < (32844 * 1 / 5)),
         "2": (_imd_value >= 32844 * 1 / 5) & (_imd_value < (32844 * 2 / 5)),
@@ -83,38 +85,50 @@ class Cohort:
     imd = categorise(_imd_groups, default="0")
 
     # Ethnicity
-    ethnicity = table("patients").filter("code", is_in=ethnicity_codes).exists()
+    ethnicity = (
+        table("clinical_events")
+        .filter("code", is_in=ethnicity_codes)
+        .filter("date", on_or_before=index_date)
+        .latest()
+        .get("code")
+    )
 
     # Clinical variables
-    # BMI
-    _bmi_date = datetime.strptime(index_date, "%Y-%M-%d") - relativedelta(months=60)
-    _bmi_date = _bmi_date.strftime("%Y-%M-%d")
-    _bmi_value = table("patients").bmi_as_of(_bmi_date, minimum_age_at_measurement=16)
+    # Latest recorded BMI
+    _bmi_value = (
+        table("clinical_events")
+        .filter(code=bmi_code)
+        .latest()
+        .get("numeric_value")
+    )
     _bmi_groups = {
-        "Obese I (30-34.9)": (_bmi_value >= 30) & (_bmi_value < 35),
-        "Obese II (35-39.9)": (_bmi_value >= 35) & (_bmi_value < 40),
-        "Obese III (40+)": (_bmi_value >= 40) & (_bmi_value < 100)
-        # set maximum to avoid any impossibly extreme values being classified as obese
+    "Obese I (30-34.9)": (_bmi_value >= 30) & (_bmi_value < 35),
+    "Obese II (35-39.9)": (_bmi_value >= 35) & (_bmi_value < 40),
+    "Obese III (40+)": (_bmi_value >= 40) & (_bmi_value < 100)
+    # set maximum to avoid any impossibly extreme values being classified as obese
     }
     bmi = categorise(_bmi_groups, default="Not obese")
 
     # Previous COVID
     _previous_covid_categories = {
         "COVID positive": (
-            c(sgss_first_positive_test_date) | c(primary_care_covid_first_date)
+            sgss_first_positive_test_date | primary_care_covid_first_date
         )
-        & ~c(hospital_covid_first_date),
-        "COVID hospitalised": c(hospital_covid_first_date),
+        & ~hospital_covid_first_date,
+        "COVID hospitalised": hospital_covid_first_date,
     }
     previous_covid = categorise(_previous_covid_categories, default="No COVID code")
 
 
 # Add the long covid and post viral code count variables
-for code in [*long_covid_diagnostic_codes, *post_viral_fatigue_codes]:
-    variable_def = (
-        table("clinical_events")
-        .filter(code=Codelist([code], system="snomed"))
-        .filter("date", on_or_before=pandemic_start)
-        .count("code")
-    )
-    setattr(Cohort, f"snomed_{code}", variable_def)
+for target_codelist in [long_covid_diagnostic_codes, post_viral_fatigue_codes]:
+    for code in target_codelist.codes:
+        variable_def = (
+            table("clinical_events")
+            .filter("code", is_in=codelist([code], target_codelist.system))
+            .filter("date", on_or_after=pandemic_start)
+            .count("code")
+        )
+        setattr(
+            Cohort, f"{target_codelist.system}_{code}", variable_def
+        )
