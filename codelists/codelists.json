@@ -42,12 +42,6 @@
       "downloaded_at": "2021-01-28 19:26:14.807785Z",
       "sha": "f09228d28e9a43ea823b4570e7d82ff3714a0010"
     },
-    "opensafely-ethnicity.csv": {
-      "id": "opensafely/ethnicity/2020-04-27",
-      "url": "https://codelists.opensafely.org/codelist/opensafely/ethnicity/2020-04-27/",
-      "downloaded_at": "2021-03-11 21:27:41.752883Z",
-      "sha": "3d2f3998b71863a80b24d60f6f4282e14191ae13"
-    },
     "opensafely-diabetes.csv": {
       "id": "opensafely/diabetes/2020-04-15",
       "url": "https://codelists.opensafely.org/codelist/opensafely/diabetes/2020-04-15/",
@@ -209,6 +203,30 @@
       "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth2001/v1/",
       "downloaded_at": "2021-04-12 15:11:17.357727Z",
       "sha": "36e4eacba898e6ec72da8ff66e8c673bfd9aa8e4"
+    },
+    "primis-covid19-vacc-uptake-non_eth2001.csv": {
+      "id": "primis-covid19-vacc-uptake/non_eth2001/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/non_eth2001/v1/",
+      "downloaded_at": "2021-07-30 15:10:49.098279Z",
+      "sha": "b8581424b9305f70148f1bbccc0d3e4703847df7"
+    },
+    "primis-covid19-vacc-uptake-eth_notgiptref.csv": {
+      "id": "primis-covid19-vacc-uptake/eth_notgiptref/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth_notgiptref/v1/",
+      "downloaded_at": "2021-07-30 15:10:49.399263Z",
+      "sha": "6245c85e4bd44c0c3aa573325cf55891efee45db"
+    },
+    "primis-covid19-vacc-uptake-eth_notstated.csv": {
+      "id": "primis-covid19-vacc-uptake/eth_notstated/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth_notstated/v1/",
+      "downloaded_at": "2021-07-30 15:10:49.704885Z",
+      "sha": "a8997e1807a07d8f56e34ba3d0b95ee0082fec82"
+    },
+    "primis-covid19-vacc-uptake-eth_norecord.csv": {
+      "id": "primis-covid19-vacc-uptake/eth_norecord/v1",
+      "url": "https://codelists.opensafely.org/codelist/primis-covid19-vacc-uptake/eth_norecord/v1/",
+      "downloaded_at": "2021-07-30 15:10:49.954073Z",
+      "sha": "ca003bb021a14e704a6e81c139536ef459673da4"
     },
     "user-alex-walker-post-viral-syndrome.csv": {
       "id": "user/alex-walker/post-viral-syndrome/70708fd6",
