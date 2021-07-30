@@ -54,7 +54,7 @@ eth2001 = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-eth2001.csv",
     system="snomed",
     column="code",
-    category_column="grouping_16_id",
+    category_column="grouping_6_id",
 )
 
 # Any other ethnicity code
