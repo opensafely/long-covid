@@ -63,11 +63,14 @@ def write_to_file(text_to_write, erase=False):
         txt.writelines("\n")
         print("\n")
 
+
+
 def add_ethnicity(cohort):
     """Add ethnicity using bandings from PRIMIS spec."""
 
     # eth2001 already indicates whether a patient is in any of bands 1-16
     s = cohort["ethnicity"].copy()
+    s = s.cat.add_categories(6)
 
     # Add band 17 (Patients with any other ethnicity code)
     s.mask(s.isna() & cohort["non_eth2001_dat"].notna(), 6, inplace=True)
