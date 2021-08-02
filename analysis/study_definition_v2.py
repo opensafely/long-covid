@@ -20,28 +20,27 @@ class Cohort:
     # Population
     # Patients registered on 2020-11-01
     _registrations = table("practice_registrations").date_in_range(index_date)
-    population = _registrations.exists()
-    # Make sure we have just the latest registration per patient
     _current_registrations = _registrations.latest("date_end")
+    population = _registrations.exists()
     practice_id = _current_registrations.get("pseudo_id")
 
     # COVID infection
-    sgss_first_positive_test_date = (
+    sgss_positive = (
         table("sgss_sars_cov_2").filter(positive_result=True).earliest().get("date")
     )
 
-    primary_care_covid_first_date = (
+    primary_care_covid = (
         table("clinical_events")
         .filter("code", is_in=any_primary_care_code)
         .earliest()
         .get("date")
     )
 
-    hospital_covid_first_date = (
+    hospital_covid = (
         table("hospitalizations")
-            .filter("code", is_in=covid_codes)
-            .earliest()
-            .get("date")
+        .filter("code", is_in=covid_codes)
+        .earliest()
+        .get("date")
     )
 
     # Outcome
@@ -52,17 +51,23 @@ class Cohort:
     first_long_covid_date = _long_covid_table.earliest().get("date")
     first_long_covid_code = _long_covid_table.earliest().get("code")
 
+    _post_viral_fatigue_table = table("clinical_events").filter(
+        "code", is_in=post_viral_fatigue_codes
+    )
+    post_viral_fatigue = _post_viral_fatigue_table.exists()
+    first_post_viral_fatigue_date = _post_viral_fatigue_table.earliest().get("date")
+
     # Demographics
     # Age
     _age = table("patients").age_as_of(index_date)
     _age_categories = {
         "0-17": _age < 18,
-        "18-24": _age >= 18 & _age < 25,
-        "25-34": _age >= 25 & _age < 35,
-        "35-44": _age >= 35 & _age < 45,
-        "45-54": _age >= 45 & _age < 55,
-        "55-69": _age >= 55 & _age < 70,
-        "70-79": _age >= 70 & _age < 80,
+        "18-24": (_age >= 18) & (_age < 25),
+        "25-34": (_age >= 25) & (_age < 35),
+        "35-44": (_age >= 35) & (_age < 45),
+        "45-54": (_age >= 45) & (_age < 55),
+        "55-69": (_age >= 55) & (_age < 70),
+        "70-79": (_age >= 70) & (_age < 80),
         "80+": _age >= 80,
     }
     age_group = categorise(_age_categories, default="missing")
@@ -93,42 +98,23 @@ class Cohort:
         .get("code")
     )
 
-    # Clinical variables
-    # Latest recorded BMI
-    _bmi_value = (
-        table("clinical_events")
-        .filter(code=bmi_code)
-        .latest()
-        .get("numeric_value")
-    )
-    _bmi_groups = {
-    "Obese I (30-34.9)": (_bmi_value >= 30) & (_bmi_value < 35),
-    "Obese II (35-39.9)": (_bmi_value >= 35) & (_bmi_value < 40),
-    "Obese III (40+)": (_bmi_value >= 40) & (_bmi_value < 100)
-    # set maximum to avoid any impossibly extreme values being classified as obese
-    }
-    bmi = categorise(_bmi_groups, default="Not obese")
-
     # Previous COVID
     _previous_covid_categories = {
-        "COVID positive": (
-            sgss_first_positive_test_date | primary_care_covid_first_date
-        )
-        & ~hospital_covid_first_date,
-        "COVID hospitalised": hospital_covid_first_date,
+        "COVID positive": (sgss_positive | primary_care_covid) & ~hospital_covid,
+        "COVID hospitalised": hospital_covid,
     }
     previous_covid = categorise(_previous_covid_categories, default="No COVID code")
 
 
 # Add the long covid and post viral code count variables
-for target_codelist in [long_covid_diagnostic_codes, post_viral_fatigue_codes]:
+for target_codelist in [any_long_covid_code, post_viral_fatigue_codes]:
     for code in target_codelist.codes:
-        variable_def = (
+        filtered_to_code = (
             table("clinical_events")
             .filter("code", is_in=codelist([code], target_codelist.system))
             .filter("date", on_or_after=pandemic_start)
-            .count("code")
         )
-        setattr(
-            Cohort, f"{target_codelist.system}_{code}", variable_def
-        )
+        count_variable_def = filtered_to_code.count("code")
+        date_variable_def = filtered_to_code.earliest().get("date")
+        setattr(Cohort, f"{target_codelist.system}_{code}", count_variable_def)
+        setattr(Cohort, f"{target_codelist.system}_{code}_date", date_variable_def)
