@@ -8,6 +8,11 @@ from common_variables import demographic_variables, clinical_variables
 pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
 stratifiers = list(demographic_variables.keys()) + ["RGN11NM"]
+
+#drop "other" ethnicity variables from stratifiers
+stratifiers = [stratifiers.remove[i] for i in ['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat']]
+
+
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
     "opensafely-referral-and-signposting-for-long-covid",
@@ -58,8 +63,34 @@ def write_to_file(text_to_write, erase=False):
         txt.writelines("\n")
         print("\n")
 
+def add_ethnicity(cohort):
+    """Add ethnicity using bandings from PRIMIS spec."""
+
+    # eth2001 already indicates whether a patient is in any of bands 1-16
+    s = cohort["ethnicity"].copy()
+
+    # Add band 17 (Patients with any other ethnicity code)
+    s.mask(s.isna() & cohort["non_eth2001_dat"].notna(), 6, inplace=True)
+
+    # Add band 18 (Ethnicity not given - patient refused)
+    s.mask(s.isna() & cohort["eth_notgiptref_dat"].notna(), 6, inplace=True)
+
+    # Add band 19 (Ethnicity not stated)
+    s.mask(s.isna() & cohort["eth_notstated_dat"].notna(), 6, inplace=True)
+
+    # Add band 20 (Ethnicity not recorded)
+    s.mask(s.isna(), 6, inplace=True)
+
+    cohort["ethnicity"] = s.astype("int8")
 
 df = pd.read_feather("output/input_cohort.feather")
+
+#Add "unknown" ethnicities
+add_ethnicity(df)
+df = df.drop(['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat'], axis=1)
+
+
+
 for v in ["first_long_covid_date", "first_post_viral_fatigue_date"]:
     df[v] = df[v].astype("datetime64")
 ## Map region from MSOA
