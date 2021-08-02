@@ -31,7 +31,8 @@ actions:
           notebook: released_outputs/long_covid_coding_report.html
 
   generate_cohort_v2:
-    run: cohortextractor:latest generate_cohort --study-definition study_definition_v2
+    run: cohortextractor-v2:latest --cohort-definition analysis/study_definition_v2.py
+    dummy_data_file: analysis/dummy_data.csv
     outputs:
       highly_sensitive:
         cohort: output/input_cohort_v2.csv
