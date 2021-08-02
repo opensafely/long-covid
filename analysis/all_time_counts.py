@@ -10,8 +10,8 @@ results_path = "output/practice_summ.txt"
 stratifiers = list(demographic_variables.keys()) + ["RGN11NM"]
 
 #drop "other" ethnicity variables from stratifiers
-stratifiers = [stratifiers.remove[i] for i in ['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat']]
-
+for i in ['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat']:
+    stratifiers.remove[i] 
 
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
