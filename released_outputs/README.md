@@ -13,7 +13,6 @@
   * [output/age_group_rate.csv](output/age_group_rate.csv)
   * [output/all_long_covid_codes.csv](output/all_long_covid_codes.csv)
   * [output/all_rate.csv](output/all_rate.csv)
-  * [output/code_use_per_week.csv](output/code_use_per_week.csv)
   * [output/code_use_per_week_long_covid.csv](output/code_use_per_week_long_covid.csv)
   * [output/code_use_per_week_post_viral_fatigue.csv](output/code_use_per_week_post_viral_fatigue.csv)
   * [output/counts_table.csv](output/counts_table.csv)
