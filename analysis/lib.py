@@ -120,13 +120,16 @@ def tpp_emis_table_format(folder, renaming):
 def get_table_1(table_list):
     all_patients = [add_cols(df) for df in table_list]
     table_1 = [get_percentages(df, "Patient count") for df in all_patients]
+    table_1[0]["sort_col"] = range(0, len(table_1[0]))
     table_1 = pd.concat(table_1, keys=["TPP", "EMIS", "Totals"], axis=1, join="inner")
+    table_1 = table_1.sort_values(by=[("TPP", "sort_col")])
+    table_1 = table_1.drop(columns=("TPP", "sort_col"))
     # .swaplevel(0,1,axis=1).sort_index(level=0, axis=1)
     table_1.loc[:, (slice(None), "Patient count")] = table_1.loc[
         :, (slice(None), "Patient count")
     ].astype(int)
     total = table_1.loc["sex"].sum(numeric_only=True)
-    return total, table_1  # .style.format("{:,}")
+    return total, table_1
 
 
 def get_table_2(table_list):
@@ -137,7 +140,10 @@ def get_table_2(table_list):
     table_2[2]["Rate per 100,000"] = (
         (table_2[2]["Long COVID"] / all_patients[2]) * 100000
     ).round(1)
+    table_2[0]["sort_col"] = range(0, len(table_2[0]))
     table_2 = pd.concat(table_2, keys=["TPP", "EMIS", "Totals"], axis=1, join="inner")
+    table_2 = table_2.sort_values(by=[("TPP", "sort_col")])
+    table_2 = table_2.drop(columns=("TPP", "sort_col"))
     # .swaplevel(0,1,axis=1).sort_index(level=0, axis=1)
     table_2.loc[:, (slice(None), "Long COVID")] = table_2.loc[
         :, (slice(None), "Long COVID")
