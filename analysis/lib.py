@@ -25,7 +25,7 @@ def code_use_per_week_graph():
         index_col="first_long_covid_date",
         parse_dates=["first_long_covid_date"],
     )
-    week_df = week_df.rename(columns={"long_covid": "df"})
+    week_df = week_df.rename(columns={"long_covid": "TPP"})
     week_emis = pd.read_csv(
         "../released_outputs/emis/code_use_per_week_long_covid.csv",
         index_col="first_long_covid_date",
@@ -54,7 +54,7 @@ def practice_distribution_graph():
     practice_df = pd.read_csv(
         "../released_outputs/output/practice_distribution.csv", index_col="long_covid"
     )
-    practice_df = practice_df.rename(columns={"long_covid.1": "df"})
+    practice_df = practice_df.rename(columns={"long_covid.1": "TPP"})
     practice_df = (practice_df / practice_df.sum()) * 100
     practice_emis = pd.read_csv(
         "../released_outputs/emis/practice_distribution.csv", index_col="long_covid"
