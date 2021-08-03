@@ -1,13 +1,12 @@
 from cohortextractor import categorise, codelist, table
 
-from codelists import (
+from codelists_v2 import (
     any_long_covid_code,
     any_primary_care_code,
-    long_covid_diagnostic_codes,
     covid_codes,
+    ethnicity_codes,
     post_viral_fatigue_codes,
 )
-from codelists_v2 import ethnicity_codes
 
 
 pandemic_start = "2020-02-01"
