@@ -22,3 +22,11 @@ actions:
         per_week_pvf: output/code_use_per_week_post_viral_fatigue.csv
         code_table: output/all_long_covid_codes.csv
         practice_summ: output/practice_summ.txt
+
+
+  # # to be run locally
+  generate_report_notebook:
+      run: jupyter:latest jupyter nbconvert /workspace/analysis/long_covid_coding_report.ipynb --execute --to html --output-dir=/workspace/released_outputs --ExecutePreprocessor.timeout=86400 --no-input
+      outputs:
+        moderately_sensitive:
+          notebook: released_outputs/long_covid_coding_report.html
