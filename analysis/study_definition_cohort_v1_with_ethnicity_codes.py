@@ -11,6 +11,7 @@ from codelists import *
 from codelists_v2 import ethnicity_codes
 from common_variables import demographic_variables, clinical_variables
 
+
 pandemic_start = "2020-02-01"
 
 
@@ -39,7 +40,8 @@ def loop_over_codes(code_list):
     return variables
 
 
-# Use code instead of category for ethnicity
+# Use code instead of category for ethnicity; V2 currently doesn't deal with categorised
+# codelists, and categorises ethnicity post-extraction
 demographic_variables["ethnicity"] = patients.with_these_clinical_events(
     ethnicity_codes,
     returning="code",
