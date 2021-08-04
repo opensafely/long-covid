@@ -30,6 +30,14 @@ actions:
         moderately_sensitive:
           notebook: released_outputs/long_covid_coding_report.html
 
+  # Uses V1 with ethnicity codes instead of categories, run locally to generate a
+  # dummy data file for V2
+  generate_cohort_v1_for_v2_comparison:
+    run: cohortextractor:latest generate_cohort --study-definition study_definition_cohort_v1_with_ethnicity_codes
+    outputs:
+      highly_sensitive:
+        cohort: output/v2/input_cohort_v1_with_ethnicity_codes.csv
+
   # Cohort Extractor V2
   generate_cohort_v2:
     run: cohortextractor-v2:latest --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
