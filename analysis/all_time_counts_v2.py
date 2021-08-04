@@ -1,11 +1,11 @@
 import os
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from common_variables import demographic_variables, clinical_variables
+from common_variables import demographic_variables
+
 
 pd.set_option("display.max_rows", 50)
-results_path = "output/practice_summ_v2.txt"
+results_path = "output/v2/practice_summ.txt"
 stratifiers = list(demographic_variables.keys())
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
@@ -54,7 +54,7 @@ def write_to_file(text_to_write, erase=False):
 
 
 df = pd.read_csv(
-    "output/input_cohort_v2.csv",
+    "output/v2/input_cohort.csv",
     index_col="patient_id",
     parse_dates=[
         "first_long_covid_date",
@@ -88,7 +88,7 @@ all_together = pd.concat(
     crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
 )
 print(all_together)
-redact_small_numbers(all_together, "Long COVID").to_csv("output/counts_table_v2.csv")
+redact_small_numbers(all_together, "Long COVID").to_csv("output/v2/counts_table.csv")
 
 ## All long-covid codes table
 codes = [str(code) for code in combined_codelists.index]
@@ -100,7 +100,7 @@ all_codes.index = all_codes.index.astype("int64")
 all_codes = combined_codelists.join(all_codes)
 all_codes["%"] = (all_codes["Total records"] / all_codes["Total records"].sum()) * 100
 redact_small_numbers(all_codes, "Total records").to_csv(
-    "output/all_long_covid_codes_v2.csv"
+    "output/v2/all_long_covid_codes.csv"
 )
 print(all_codes.columns)
 
@@ -116,7 +116,7 @@ write_to_file(f"Summary stats by practice:\n{practice_summ}")
 ranges = [-1, 0, 1, 2, 3, 4, 5, 10, 10000]
 practice_distribution = by_practice.groupby(pd.cut(by_practice, ranges)).count()
 write_to_file(f"Distribution of coding within practices: {practice_distribution}")
-practice_distribution.to_csv("output/practice_distribution_v2.csv")
+practice_distribution.to_csv("output/v2/practice_distribution.csv")
 
 
 def weekly_counts(variable):
@@ -125,7 +125,7 @@ def weekly_counts(variable):
     weekly_counts = weekly_counts.loc["2020-01-01":]
     weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
     print(weekly_counts)
-    weekly_counts.to_csv(f"output/code_use_per_week_{variable}_v2.csv")
+    weekly_counts.to_csv(f"output/v2/code_use_per_week_{variable}.csv")
 
 
 weekly_counts("long_covid")
@@ -138,7 +138,7 @@ def interval_until(col):
     interval = interval.groupby(pd.cut(interval, bins)).count()
     interval.loc[interval.isin([1, 2, 3, 4, 5])] = np.nan
     write_to_file(f"Timing of {col} relative to COVID:\n{interval}")
-    interval.to_csv(f"output/interval_{col}_v2.csv")
+    interval.to_csv(f"output/v2/interval_{col}.csv")
 
 
 for col in ["first_long_covid_date"] + individual_code_dates[0:5]:

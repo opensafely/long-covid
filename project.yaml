@@ -30,20 +30,21 @@ actions:
         moderately_sensitive:
           notebook: released_outputs/long_covid_coding_report.html
 
+  # Cohort Extractor V2
   generate_cohort_v2:
-    run: cohortextractor-v2:latest --cohort-definition analysis/study_definition_v2.py --output output/input_cohort_v2.csv --dummy-data-file analysis/dummy_data.csv
+    run: cohortextractor-v2:latest --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
     outputs:
       highly_sensitive:
-        cohort: output/input_cohort_v2.csv
+        cohort: output/v2/input_cohort.csv
 
   count_by_strata_v2:
     run: python:latest python analysis/all_time_counts_v2.py
     needs: [generate_cohort_v2]
     outputs:
       moderately_sensitive:
-        table: output/counts_table_v2.csv
-        practice_distribution: output/practice_distribution_v2.csv
-        per_week: output/code_use_per_week_long_covid_v2.csv
-        per_week_pvf: output/code_use_per_week_post_viral_fatigue_v2.csv
-        code_table: output/all_long_covid_codes_v2.csv
-        practice_summ: output/practice_summ_v2.txt
+        table: output/v2/counts_table.csv
+        practice_distribution: output/v2/practice_distribution.csv
+        per_week: output/v2/code_use_per_week_long_covid.csv
+        per_week_pvf: output/v2/code_use_per_week_post_viral_fatigue.csv
+        code_table: output/v2/all_long_covid_codes.csv
+        practice_summ: output/v2/practice_summ.txt
