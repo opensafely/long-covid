@@ -35,7 +35,7 @@ def code_use_per_week_graph():
     week_total = pd.concat([week_df, week_emis], axis=1)
 
     to_plot = week_total["2020-11-15":]
-    to_plot = to_plot.loc[: datetime.today()]
+    to_plot = to_plot.loc[: "2021-07-31"] # datetime.today()]
     # print(to_plot)
 
     ax = to_plot.plot(kind="bar", width=0.8, figsize=(8, 6))
