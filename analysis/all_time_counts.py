@@ -9,9 +9,14 @@ pd.set_option("display.max_rows", 50)
 results_path = "output/practice_summ.txt"
 stratifiers = list(demographic_variables.keys()) + ["RGN11NM"]
 
-#drop "other" ethnicity variables from stratifiers
-for i in ['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat']:
-    stratifiers.remove(i) 
+# drop "other" ethnicity variables from stratifiers
+for i in [
+    "non_eth2001_dat",
+    "eth_notgiptref_dat",
+    "eth_notstated_dat",
+    "eth_norecord_dat",
+]:
+    stratifiers.remove(i)
 
 long_covid_codelists = [
     "opensafely-nice-managing-the-long-term-effects-of-covid-19",
@@ -64,7 +69,6 @@ def write_to_file(text_to_write, erase=False):
         print("\n")
 
 
-
 def add_ethnicity(cohort):
     """Add ethnicity using bandings from PRIMIS spec."""
 
@@ -86,12 +90,15 @@ def add_ethnicity(cohort):
 
     cohort["ethnicity"] = s.astype("int8")
 
+
 df = pd.read_feather("output/input_cohort.feather")
 
-#Add "unknown" ethnicities
+# Add "unknown" ethnicities
 add_ethnicity(df)
-df = df.drop(['non_eth2001_dat', 'eth_notgiptref_dat', 'eth_notstated_dat', 'eth_norecord_dat'], axis=1)
-
+df = df.drop(
+    ["non_eth2001_dat", "eth_notgiptref_dat", "eth_notstated_dat", "eth_norecord_dat"],
+    axis=1,
+)
 
 
 for v in ["first_long_covid_date", "first_post_viral_fatigue_date"]:
@@ -107,6 +114,8 @@ if df["long_covid"].nunique() == 1:
 # df["ethnicity"] = df["ethnicity"].fillna(0)
 df["RGN11NM"] = df["RGN11NM"].cat.add_categories("Missing")
 df["RGN11NM"] = df["RGN11NM"].fillna("Missing")
+df.loc[df["RGN11NM"] == "Scotland", "RGN11NM"] = "Missing"
+df.loc[df["RGN11NM"] == "Wales", "RGN11NM"] = "Missing"
 
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
