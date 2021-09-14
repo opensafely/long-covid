@@ -51,6 +51,10 @@ def write_to_file(text_to_write, erase=False):
         print("\n")
 
 
+def custom_round(x, base=5):
+    return int(base * round(float(x) / base))
+
+
 df = pd.read_csv(
     "output/input_cohort.csv",
     index_col="patient_id",
@@ -114,7 +118,7 @@ def weekly_counts(variable):
     weekly_counts = df.set_index(f"first_{variable}_date")[variable]
     weekly_counts = weekly_counts.resample("W").count()
     weekly_counts = weekly_counts.loc["2020-01-01":]
-    weekly_counts.loc[weekly_counts.isin([1, 2, 3, 4, 5])] = np.nan
+    weekly_counts = weekly_counts.apply(lambda x: custom_round(x, base=5))
     print(weekly_counts)
     weekly_counts.to_csv(f"output/code_use_per_week_{variable}.csv")
 

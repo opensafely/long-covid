@@ -112,8 +112,10 @@ def tpp_emis_table_format(folder, renaming):
         "5": "Other",
     }
     imd_categories = {"1": "Most deprived 1", "5": "Least deprived 5"}
+    region_categories = {"East": "East of England"}
     df = rename_index_categories(df, "ethnicity", high_level_ethnicities)
     df = rename_index_categories(df, "imd", imd_categories)
+    df = rename_index_categories(df, "region", region_categories)
     return df
 
 
