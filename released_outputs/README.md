@@ -9,6 +9,7 @@
   * [emis/counts_table.csv](emis/counts_table.csv)
   * [emis/practice_distribution.csv](emis/practice_distribution.csv)
   * [emis/practice_summ.txt](emis/practice_summ.txt)
+* [long_covid_coding_report.html](long_covid_coding_report.html)
 * output
   * [output/age_group_rate.csv](output/age_group_rate.csv)
   * [output/all_long_covid_codes.csv](output/all_long_covid_codes.csv)
