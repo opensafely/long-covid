@@ -39,8 +39,14 @@ actions:
         cohort: output/v2/input_cohort_v1_with_ethnicity_codes.csv
 
   # Cohort Extractor V2
+  validate_cohort_v2:
+    run: cohortextractor-v2:latest validate_cohort tpp --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/generated_sql.csv
+    outputs:
+      moderately_sensitive:
+        cohort: output/v2/generated_sql.csv
+
   generate_cohort_v2:
-    run: cohortextractor-v2:latest --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
+    run: cohortextractor-v2:latest generate_cohort --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
     outputs:
       highly_sensitive:
         cohort: output/v2/input_cohort.csv
