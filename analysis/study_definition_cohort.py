@@ -24,7 +24,7 @@ def make_variable(code):
                 date_format="YYYY-MM-DD",
                 return_expectations={
                     "incidence": 0.1,
-                    "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+                    "int": {"distribution": "normal", "mean": 7, "stddev": 1},
                 },
             )
         )
@@ -52,7 +52,7 @@ study = StudyDefinition(
         registered=patients.registered_as_of("index_date"),
     ),
     # COVID infection
-    sgss_positive=patients.with_test_result_in_sgss(
+    sgss_dsahjfhalsf=patients.with_test_result_in_sgss(
         pathogen="SARS-CoV-2",
         test_result="positive",
         returning="date",
@@ -65,7 +65,7 @@ study = StudyDefinition(
         returning="date",
         date_format="YYYY-MM-DD",
         find_first_match_in_period=True,
-        return_expectations={"incidence": 0.1, "date": {"earliest": "index_date"}},
+        return_expectations={"incidence": 0.5, "date": {"earliest": "index_date"}},
     ),
     hospital_covid=patients.admitted_to_hospital(
         with_these_diagnoses=covid_codes,
