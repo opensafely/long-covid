@@ -35,10 +35,10 @@ def code_use_per_week_graph():
     week_total = pd.concat([week_df, week_emis], axis=1)
 
     to_plot = week_total["2020-11-15":]
-    to_plot = to_plot.loc[: "2021-09-04"] # datetime.today()]
+    to_plot = to_plot.loc[: "2022-01-09"] # datetime.today()]
     # print(to_plot)
 
-    ax = to_plot.plot(kind="bar", width=0.8, figsize=(10, 6))
+    ax = to_plot.plot(kind="bar", width=0.8, figsize=(18, 6))
     title = "Code use per week"
     ax.set_xticklabels(map(line_format, to_plot.index))
     ax.xaxis.label.set_visible(False)
