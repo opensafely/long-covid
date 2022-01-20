@@ -40,7 +40,7 @@ actions:
 
   # Cohort Extractor V2
   generate_cohort_v2:
-    run: databuilder:latest --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
+    run: databuilder:v0 --cohort-definition analysis/study_definition_cohort_v2.py --output output/v2/input_cohort.csv --dummy-data-file analysis/dummy_data.csv
     outputs:
       highly_sensitive:
         cohort: output/v2/input_cohort.csv
