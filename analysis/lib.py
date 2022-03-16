@@ -35,7 +35,7 @@ def code_use_per_week_graph():
     week_total = pd.concat([week_df, week_emis], axis=1)
 
     to_plot = week_total["2020-11-15":]
-    to_plot = to_plot.loc[: "2022-01-09"] # datetime.today()]
+    to_plot = to_plot.loc[: "2022-03-06"] # datetime.today()]
     # print(to_plot)
 
     ax = to_plot.plot(kind="bar", width=0.8, figsize=(18, 6))
@@ -154,32 +154,42 @@ def get_table_2(table_list):
     return total, table_2  # .style.format('{:,}')
 
 
-def read_codes_table(folder):
+def read_codes_table(folder, file, sep=","):
     df = pd.read_csv(
-        f"../released_outputs/{folder}/all_long_covid_codes.csv", index_col="code"
+        f"../released_outputs/{folder}/{file}.csv", sep=sep, index_col="code"
     )
     return df
 
 
 def smoosh_codes_tables():
-    tpp = read_codes_table("output")
-    emis = read_codes_table("emis")
-    tpp["term"].update(emis["term"])
-    terms = tpp["term"]
-    tpp = tpp[["Total records"]]
-    emis = emis[["Total records"]]
-    total = tpp + emis
+    tpp = read_codes_table("output", 'all_long_covid_codes',"\t")
+    emis = read_codes_table("emis", 'all_long_covid_codes_redacted')
+    emis["term"].update(tpp["term"])
+    terms = emis["term"].reset_index()
+    terms['code'] = terms['code'].apply(str)
+    tpp = tpp.merge(terms, on='term').set_index('code')
+    tpp = tpp[["Total records"]].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+    emis = emis.merge(terms, on='term').set_index('code')
+    emis = emis[["Total records"]].apply(lambda x: pd.to_numeric(x, errors='coerce'))
+    total = tpp.add(emis, fill_value=0)
     table_list = [tpp, emis, total]
     tables = []
     for table in table_list:
         table = table.drop(table.tail(3).index)
         table["%"] = (table["Total records"] / table["Total records"].sum()) * 100
         tables.append(table)
+    terms = terms.set_index('code')
     combined = pd.concat(
         [terms] + tables,
         keys=["", "TPP", "EMIS", "Total"],
         axis=1,
-        join="inner",
+        join="outer",
     )
+    # REDACT
+    combined = combined.head(combined.shape[0]-3)
     total = combined.sum(numeric_only=True)
+    combined.loc['1325151000000100'] = combined.loc['1325151000000100'].replace(np.nan,'[REDACTED]')
+    combined.loc['1325091000000109']['EMIS'] = '[REDACTED]'
+    combined.loc['1325121000000105']['EMIS'] = '[REDACTED]'
+    combined.loc['1325121000000105']['Total'] = '[REDACTED]'
     return total, combined  # .set_index(pd.Index(combined["term"]))
