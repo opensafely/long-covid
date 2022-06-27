@@ -80,7 +80,7 @@ first_covid_date = df[["sgss_positive", "primary_care_covid", "hospital_covid"]]
 ## Crosstabs
 crosstabs = [crosstab(df[v]) for v in stratifiers]
 all_together = pd.concat(
-    crosstabs, axis=0, keys=stratifiers + ["imd"], names=["Attribute", "Category"]
+    crosstabs, axis=0, keys=stratifiers + ["imdQ5_incorrect", "imdQ5_correct"], names=["Attribute", "Category"]
 )
 print(all_together)
 redact_small_numbers(all_together, "Long COVID").to_csv("output/counts_table.csv")
