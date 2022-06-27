@@ -89,12 +89,12 @@ demographic_variables = dict(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0": 0.05,
-                    "1": 0.19,
+                    "Unknown": 0.05,
+                    "1 (most deprived)": 0.19,
                     "2": 0.19,
                     "3": 0.19,
                     "4": 0.19,
-                    "5": 0.19,
+                    "5 (least deprived)": 0.19,
                 }
             },
         },
@@ -112,12 +112,12 @@ demographic_variables = dict(
             "rate": "universal",
             "category": {
                 "ratios": {
-                    "0": 0.04,
-                    "1": 0.20,
+                    "Unknown": 0.04,
+                    "1 (most deprived)": 0.20,
                     "2": 0.19,
                     "3": 0.19,
                     "4": 0.19,
-                    "5": 0.19,
+                    "5 (least deprived)": 0.19,
                 }
             },
         },
