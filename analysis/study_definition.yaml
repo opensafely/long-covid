@@ -1,0 +1,55 @@
+codelists:
+  creatine_codes: path/to/codelist
+
+queries:
+  sgss_positives:
+    table: sgss_sars_cov_2
+    operations:
+      - filter:
+          positive_result: True
+
+  creatine_events:
+    table: clinical_events
+    operations:
+      filter:
+        code:
+          is_in: codelists.creatine_codes
+        date:
+          between:
+            - sgss_first_positive_test_date
+            - sgss_last_positive_test_date
+        latest: date
+
+outputs:
+  sgss_first_positive_test_date:
+    uses: queries.sgss_positives
+    operations:
+      earliest: date
+      get: date
+
+  sgss_last_positive_test_date:
+    uses: queries.sgss_positives
+    operations:
+      latest: date
+      get: date
+
+  creatinine_value:
+    uses: queries.creatine_events
+    operations:
+      get: numeric_value
+
+  creatine_date:
+    uses: queries.creatine_events
+    operations:
+      get: date
+
+  stp:
+    table: practice_registrations
+    operations:
+      date_in_range: sgss_first_positive_test_date
+      get: stp_code
+
+  population:
+    table: practice_registrations
+    operations:
+      - exists: yes
