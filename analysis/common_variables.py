@@ -58,24 +58,6 @@ demographic_variables = dict(
             },
         },
     ),
-    imd=patients.address_as_of(
-        "index_date",
-        returning="index_of_multiple_deprivation",
-        round_to_nearest=100,
-        return_expectations={
-            "rate": "universal",
-            "category": {
-                "ratios": {
-                    "-1": 0.05,
-                    "100": 0.19,
-                    "200": 0.19,
-                    "300": 0.19,
-                    "400": 0.19,
-                    "500": 0.19,
-                }
-            },
-        },
-    ),
     imdQ5_incorrect=patients.categorised_as(
         {
             "Unknown": "DEFAULT",
